@@ -11,5 +11,5 @@ import soon.planhub.domain.member.service.MemberService;
 public class MemberController {
 
     private final MemberService memberService;
-    
+
 }
