@@ -30,9 +30,9 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
     @Autowired
     private JwtProvider jwtProvider;
 
-    @DisplayName("유효한 토큰으로 보호된 API에 접근하면 성공한다.")
+    @DisplayName("유효한 토큰으로 보호된 API에 접근 할 수 있다.")
     @Test
-    void givenValidToken_whenAccessingSecureApiThenSucceeds() throws Exception {
+    void givenValidTokenWhenAccessingSecureApiThenSucceeds() throws Exception {
         // given
         TokenResponse tokenResponse = jwtProvider.generateAllToken(MEMBER_ID);
 
@@ -47,7 +47,7 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
             .andExpect(status().isOk());
     }
 
-    @DisplayName("토큰 없이 인증이 필요한 API를 요청하면 401 에러를 반환한다.")
+    @DisplayName("토큰 없이 인증이 필요한 API를 요청하면 에러를 반환한다.")
     @Test
     void requestWithoutTokenShouldFail() throws Exception {
         // expected
@@ -66,7 +66,7 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
             .andExpect(status().isOk());
     }
 
-    @DisplayName("유효하지 않은 토큰으로 보호된 API에 접근하면 401 에러를 반환한다.")
+    @DisplayName("유효하지 않은 토큰으로 보호된 API에 접근하면 에러를 반환한다.")
     @Test
     void givenInvalidTokenWhenAccessingSecureApiThenFails() throws Exception {
         // given
@@ -80,7 +80,7 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
             .andExpect(status().isUnauthorized());
     }
 
-    @DisplayName("Bearer 접두사 없는 토큰으로 보호된 API에 접근하면 401 에러를 반환한다.")
+    @DisplayName("Bearer 접두사 없는 토큰으로 보호된 API에 접근하면 에러를 반환한다.")
     @Test
     void givenTokenWithoutBearerPrefixWhenAccessingSecureApiThenFails() throws Exception {
         // given
@@ -97,7 +97,7 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
             .andExpect(status().isUnauthorized());
     }
 
-    @DisplayName("잘못된 서명 토큰으로 보호된 API에 접근하면 401 에러를 반환한다.")
+    @DisplayName("잘못된 서명 토큰으로 보호된 API에 접근하면 에러를 반환한다.")
     @Test
     void givenInvalidSignatureTokenWhenAccessingSecureApiThenFails() throws Exception {
         // given
@@ -114,7 +114,7 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
             .andExpect(status().isUnauthorized());
     }
 
-    @DisplayName("Authorization 헤더가 비어 있으면 401 에러를 반환한다.")
+    @DisplayName("Authorization 헤더가 비어 있으면 에러를 반환한다.")
     @Test
     void givenEmptyAuthorizationHeaderWhenAccessingSecureApiThenFails() throws Exception {
         // expected
@@ -125,7 +125,7 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
             .andExpect(status().isUnauthorized());
     }
 
-    @DisplayName("Authorization 헤더가 없으면 401 에러를 반환한다.")
+    @DisplayName("Authorization 헤더가 없으면 에러를 반환한다.")
     @Test
     void givenNoAuthorizationHeaderWhenAccessingSecureApiThenFails() throws Exception {
         // expected
@@ -135,7 +135,7 @@ public class JwtAuthenticationFilterIntegrationTest extends IntegrationTestSuppo
             .andExpect(status().isUnauthorized());
     }
 
-    @DisplayName("잘못된 형식의 Authorization 헤더로 보호된 API에 접근하면 401 에러를 반환한다.")
+    @DisplayName("잘못된 형식의 Authorization 헤더로 보호된 API에 접근하면 에러를 반환한다.")
     @Test
     void givenMalformedAuthorizationHeaderWhenAccessingSecureApiThenFails() throws Exception {
         // given
