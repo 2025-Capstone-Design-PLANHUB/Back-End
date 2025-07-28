@@ -68,6 +68,11 @@ public class Member extends BaseEntity {
         this.profileImageURL = profileImageURL;
     }
 
+    public void setupTokens(String refreshToken, String oauthToken) {
+        this.refreshToken = refreshToken;
+        this.oauthToken = oauthToken;
+    }
+
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
     }

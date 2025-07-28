@@ -13,6 +13,11 @@ public class MemberRepository {
 
     private final MemberJpaRepository memberJpaRepository;
 
+    public Member findById(Long member) {
+        return memberJpaRepository.findById(member)
+            .orElseThrow(() -> new EntityNotFoundException(MEMBER_NOT_FOUND));
+    }
+
     public Member findByNickname(String nickname) {
         return memberJpaRepository.findByNickname(nickname)
             .orElseThrow(() -> new EntityNotFoundException(MEMBER_NOT_FOUND));
@@ -20,6 +25,10 @@ public class MemberRepository {
 
     public void save(Member member) {
         memberJpaRepository.save(member);
+    }
+
+    public void deleteAllInBatch() {
+        memberJpaRepository.deleteAllInBatch();
     }
 
 }
