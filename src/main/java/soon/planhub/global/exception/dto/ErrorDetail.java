@@ -13,6 +13,7 @@ public enum ErrorDetail {
 
     // 회원 관련
     MEMBER_NOT_FOUND(404, "해당 회원을 찾을 수 없습니다."),
+    GITHUB_MEMBER_EMAIL_NOT_FOUND(404, "GitHub 회원의 이메일을 찾을 수 없습니다."),
     ;
 
     private final int status;
