@@ -2,7 +2,6 @@ package soon.planhub.domain.member.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import soon.planhub.domain.member.entity.Member;
 import soon.planhub.domain.member.repository.MemberRepository;

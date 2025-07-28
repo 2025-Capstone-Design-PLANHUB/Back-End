@@ -12,12 +12,14 @@ import soon.planhub.domain.member.entity.Member;
 import soon.planhub.domain.member.repository.MemberRepository;
 import soon.planhub.global.exception.dto.common.EntityNotFoundException;
 import soon.planhub.global.security.oauth2.dto.CustomOAuth2Member;
+import soon.planhub.infra.github.GithubEmailService;
 
 @Slf4j
 @RequiredArgsConstructor
 @Service
 public class OAuth2GithubService extends DefaultOAuth2UserService {
 
+    private final GithubEmailService githubEmailService;
     private final MemberRepository memberRepository;
 
     @Override
@@ -46,12 +48,26 @@ public class OAuth2GithubService extends DefaultOAuth2UserService {
         try {
             return memberRepository.findByNickname(nickname);
         } catch (EntityNotFoundException e) {
-            String profileImageURL = oAuth2User.getAttribute("avatar_url");
-            String email = oAuth2User.getAttribute("email"); // TODO: 이메일 정보가 없을 경우 처리 필요
-            Member member = Member.createOAuthMember(email, nickname, profileImageURL, oauthAccessToken);
-            memberRepository.save(member);
-            return member;
+            return createOAuthMember(oAuth2User, oauthAccessToken, nickname);
         }
+    }
+
+    private String getEmail(String email, String oauthAccessToken) {
+        if (email == null) {
+            return githubEmailService.fetchPrimaryVerifiedEmail(oauthAccessToken);
+        }
+
+        return email;
+    }
+
+    private Member createOAuthMember(OAuth2User oAuth2User, String oauthAccessToken,
+        String nickname) {
+        String profileImageURL = oAuth2User.getAttribute("avatar_url");
+        String email = getEmail(oAuth2User.getAttribute("email"), oauthAccessToken);
+        Member member = Member.createOAuthMember(email, nickname, profileImageURL,
+            oauthAccessToken);
+        memberRepository.save(member);
+        return member;
     }
 
 }
