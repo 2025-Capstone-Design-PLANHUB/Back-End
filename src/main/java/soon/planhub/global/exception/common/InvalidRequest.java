@@ -1,4 +1,4 @@
-package soon.planhub.global.exception.dto.common;
+package soon.planhub.global.exception.common;
 
 import lombok.Getter;
 import soon.planhub.global.exception.PlanHubException;
