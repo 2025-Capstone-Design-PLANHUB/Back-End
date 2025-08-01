@@ -7,7 +7,7 @@ import soon.planhub.domain.auth.service.dto.request.ReissueTokenServiceRequest;
 import soon.planhub.domain.member.entity.Member;
 import soon.planhub.domain.member.repository.MemberRepository;
 import soon.planhub.global.exception.dto.ErrorDetail;
-import soon.planhub.global.exception.dto.member.InvalidRefreshTokenException;
+import soon.planhub.global.exception.member.InvalidRefreshTokenException;
 import soon.planhub.global.security.jwt.dto.response.TokenResponse;
 import soon.planhub.global.security.jwt.provider.JwtProvider;
 

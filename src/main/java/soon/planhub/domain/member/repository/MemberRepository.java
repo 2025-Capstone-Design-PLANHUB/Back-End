@@ -5,7 +5,7 @@ import static soon.planhub.global.exception.dto.ErrorDetail.MEMBER_NOT_FOUND;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import soon.planhub.domain.member.entity.Member;
-import soon.planhub.global.exception.dto.common.EntityNotFoundException;
+import soon.planhub.global.exception.common.EntityNotFoundException;
 
 @RequiredArgsConstructor
 @Repository

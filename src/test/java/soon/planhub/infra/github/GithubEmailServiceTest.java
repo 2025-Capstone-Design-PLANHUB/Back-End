@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.RestClient;
-import soon.planhub.global.exception.dto.member.GithubEmailNotFoundException;
+import soon.planhub.global.exception.member.GithubEmailNotFoundException;
 import soon.planhub.infra.client.RestClientProvider;
 import soon.planhub.infra.client.github.GithubRestClientProvider;
 import soon.planhub.infra.github.dto.GithubEmailDto;

@@ -1,4 +1,4 @@
-package soon.planhub.global.exception.dto.member;
+package soon.planhub.global.exception.member;
 
 import soon.planhub.global.exception.PlanHubException;
 import soon.planhub.global.exception.dto.ErrorDetail;

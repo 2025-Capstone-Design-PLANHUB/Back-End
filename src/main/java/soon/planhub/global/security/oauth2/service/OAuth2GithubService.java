@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import soon.planhub.domain.member.entity.Member;
 import soon.planhub.domain.member.repository.MemberRepository;
-import soon.planhub.global.exception.dto.common.EntityNotFoundException;
+import soon.planhub.global.exception.common.EntityNotFoundException;
 import soon.planhub.global.security.oauth2.dto.CustomOAuth2Member;
 import soon.planhub.infra.github.GithubEmailService;
 
