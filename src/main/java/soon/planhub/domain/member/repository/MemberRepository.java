@@ -31,4 +31,8 @@ public class MemberRepository {
         memberJpaRepository.deleteAllInBatch();
     }
 
+    public boolean existsByIdAndRefreshToken(Long memberId, String refreshToken) {
+        return memberJpaRepository.existsByIdAndRefreshToken(memberId, refreshToken);
+    }
+
 }

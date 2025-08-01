@@ -49,6 +49,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.equals("/api/v1/auth/reissue");
+    }
+
     private Optional<Authentication> getAuthenticationFromRequest(HttpServletRequest request) {
         String header = request.getHeader(AUTHORIZATION_HEADER.getValue());
         return JwtUtils.getTokenFromHeader(header)
