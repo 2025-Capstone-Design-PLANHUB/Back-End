@@ -15,6 +15,13 @@ public enum ErrorDetail {
     // 회원 관련
     MEMBER_NOT_FOUND(404, "해당 회원을 찾을 수 없습니다."),
     GITHUB_MEMBER_EMAIL_NOT_FOUND(404, "GitHub 회원의 이메일을 찾을 수 없습니다."),
+
+    // 팀 관련
+    TEAM_LEADER_ALREADY_EXISTS(409, "팀 리더가 이미 존재합니다."),
+    TEAM_NOT_FOUND(404, "해당 팀을 찾을 수 없습니다."),
+
+    // 팀원 관련
+    TEAM_MEMBER_NOT_FOUND(404, "해당 팀원을 찾을 수 없습니다."),
     ;
 
     private final int status;

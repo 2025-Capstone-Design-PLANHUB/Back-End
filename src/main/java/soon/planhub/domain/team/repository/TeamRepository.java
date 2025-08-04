@@ -2,11 +2,27 @@ package soon.planhub.domain.team.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import soon.planhub.domain.team.entity.Team;
+import soon.planhub.global.exception.common.EntityNotFoundException;
+import soon.planhub.global.exception.dto.ErrorDetail;
 
 @RequiredArgsConstructor
 @Repository
 public class TeamRepository {
 
     private final TeamJpaRepository teamJpaRepository;
+
+    public void save(Team team) {
+        teamJpaRepository.save(team);
+    }
+
+    public Team findById(Long teamId) {
+        return teamJpaRepository.findById(teamId)
+            .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_NOT_FOUND));
+    }
+
+    public void deleteAllInBatch() {
+        teamJpaRepository.deleteAllInBatch();
+    }
 
 }
