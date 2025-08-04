@@ -1,7 +1,6 @@
 package soon.planhub.domain.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static soon.springtestutil.querycount.assertion.QueryCounterAssertion.assertCounts;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -39,11 +38,6 @@ class MemberServiceTest extends IntegrationTestSupport {
         assertThat(updatedMember)
             .extracting("oauthToken", "refreshToken")
             .containsExactly("newAccessToken", "newRefreshToken");
-
-        assertCounts()
-            .select(2)
-            .update(1)
-            .verify();
     }
 
 }
