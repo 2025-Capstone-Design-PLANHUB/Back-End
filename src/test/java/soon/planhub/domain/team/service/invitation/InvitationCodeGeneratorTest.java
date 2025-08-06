@@ -1,19 +1,5 @@
 package soon.planhub.domain.team.service.invitation;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.never;
-import static org.mockito.BDDMockito.times;
-import static org.mockito.BDDMockito.verify;
-
-import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,6 +9,18 @@ import soon.planhub.IntegrationTestSupport;
 import soon.planhub.domain.team.entity.InvitationCode;
 import soon.planhub.domain.team.entity.Team;
 import soon.planhub.domain.team.repository.TeamRepository;
+
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.*;
 
 class InvitationCodeGeneratorTest extends IntegrationTestSupport {
 
@@ -70,7 +68,7 @@ class InvitationCodeGeneratorTest extends IntegrationTestSupport {
         // given
         Team team = Team.create("Test name", "Test description", "Test organization");
         LocalDateTime expiredTime = LocalDateTime.now().minusDays(1);
-        InvitationCode invitationCode = InvitationCode.createWithCode("expired", expiredTime);
+        InvitationCode invitationCode = InvitationCode.createWithCode("expired1", expiredTime);
         team.refreshInvitationCode(invitationCode);
         teamRepository.save(team);
 

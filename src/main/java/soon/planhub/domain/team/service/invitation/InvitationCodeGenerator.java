@@ -1,12 +1,13 @@
 package soon.planhub.domain.team.service.invitation;
 
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import soon.planhub.domain.team.entity.InvitationCode;
 import soon.planhub.domain.team.entity.Team;
 import soon.planhub.domain.team.repository.TeamRepository;
+
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -22,7 +23,7 @@ public class InvitationCodeGenerator {
         Team team = teamRepository.findByIdWithPessimisticLock(teamId);
         LocalDateTime now = LocalDateTime.now();
 
-        if (team.isExpiredInvitationCode(now)) {
+        if (team.shouldRefreshInvitationCode(now)) {
             String code = generateUniqueCode(now);
             InvitationCode newInvitationCode = InvitationCode.createWithCode(code, now);
             team.refreshInvitationCode(newInvitationCode);
