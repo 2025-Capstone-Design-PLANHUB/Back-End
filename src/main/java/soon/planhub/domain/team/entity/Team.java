@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,6 +43,10 @@ public class Team extends BaseEntity {
 
     public void refreshInvitationCode(InvitationCode invitationCode) {
         this.invitationCode = invitationCode;
+    }
+
+    public boolean isExpiredInvitationCode(LocalDateTime now) {
+        return invitationCode != null && !invitationCode.isExpired(now);
     }
 
 }

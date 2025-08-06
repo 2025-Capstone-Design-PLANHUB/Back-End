@@ -19,13 +19,13 @@ public class InvitationCode {
 
     private LocalDateTime expirationTime;
 
-    public static InvitationCode createWithCode(String invitationCode) {
-        LocalDateTime expirationTime = LocalDateTime.now().plusDays(1L);
+    public static InvitationCode createWithCode(String invitationCode, LocalDateTime now) {
+        LocalDateTime expirationTime = now.plusDays(1L);
         return new InvitationCode(invitationCode, expirationTime);
     }
 
-    public boolean isExpired() {
-        return LocalDateTime.now().isAfter(expirationTime);
+    public boolean isExpired(LocalDateTime now) {
+        return now.isAfter(expirationTime);
     }
 
 }
