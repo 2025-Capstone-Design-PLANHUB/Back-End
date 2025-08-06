@@ -11,6 +11,7 @@ public enum ErrorDetail {
     INVALID_REQUEST(400, "잘못된 요청입니다."),
     INVALID_TOKEN(401, "유효하지 않은 토큰입니다."),
     UNAUTHORIZED(401, "인증되지 않은 사용자입니다."),
+    EMAIL_SEND_FAILED(500, "이메일 전송에 실패했습니다."),
 
     // 회원 관련
     MEMBER_NOT_FOUND(404, "해당 회원을 찾을 수 없습니다."),
