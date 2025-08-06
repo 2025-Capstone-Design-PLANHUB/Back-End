@@ -22,6 +22,10 @@ public class TeamMemberRepository {
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
     }
 
+    public boolean existsByTeamIdAndMemberId(Long teamId, Long memberId) {
+        return teamMemberJpaRepository.existsByTeamIdAndMemberId(teamId, memberId);
+    }
+
     public boolean existsByTeamIdAndRole(Long teamId) {
         return teamMemberJpaRepository.existsByTeamIdAndRole(teamId, Role.ROLE_LEADER);
     }
