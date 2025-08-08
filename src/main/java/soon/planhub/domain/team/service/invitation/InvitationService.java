@@ -2,9 +2,8 @@ package soon.planhub.domain.team.service.invitation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import soon.planhub.domain.team.service.dto.request.InvitationSendServiceRequest;
 import soon.planhub.domain.teammember.service.TeamMemberValidator;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -20,11 +19,12 @@ public class InvitationService {
         return codeGenerator.generateInvitationCode(teamId);
     }
 
-    public void sendInvitationCode(Long teamId, Long memberId, List<String> emails) {
-        teamMemberValidator.validateTeamHasMember(teamId, memberId);
+    public void sendInvitationCode(InvitationSendServiceRequest request) {
+        teamMemberValidator.validateTeamHasMember(request.teamId(), request.memberId());
 
-        String code = invitationReader.findInvitationCodeByTeamId(teamId);
-        emails.forEach(email -> invitationProcessor.sendInvitationEmail(email, code));
+        String code = invitationReader.findInvitationCodeByTeamId(request.teamId());
+        request.emails()
+            .forEach(email -> invitationProcessor.sendInvitationEmail(email, code));
     }
 
 }

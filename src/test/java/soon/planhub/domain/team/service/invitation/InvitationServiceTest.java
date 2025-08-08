@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import soon.planhub.domain.team.service.dto.request.InvitationSendServiceRequest;
 import soon.planhub.domain.teammember.service.TeamMemberValidator;
 import soon.planhub.global.exception.common.EntityNotFoundException;
 import soon.planhub.global.exception.dto.ErrorDetail;
@@ -85,11 +86,17 @@ class InvitationServiceTest {
         List<String> emails = List.of("test1@example.com", "test2@example.com");
         String code = "EXPECTED";
 
+        InvitationSendServiceRequest request = InvitationSendServiceRequest.builder()
+            .memberId(memberId)
+            .teamId(teamId)
+            .emails(emails)
+            .build();
+
         given(invitationReader.findInvitationCodeByTeamId(teamId))
             .willReturn(code);
 
         // when
-        invitationService.sendInvitationCode(teamId, memberId, emails);
+        invitationService.sendInvitationCode(request);
 
         // then
         verify(teamMemberValidator).validateTeamHasMember(teamId, memberId);
@@ -107,11 +114,17 @@ class InvitationServiceTest {
         String code = "EXPECTED";
         List<String> emails = List.of("test1@example.com");
 
+        InvitationSendServiceRequest request = InvitationSendServiceRequest.builder()
+            .memberId(memberId)
+            .teamId(teamId)
+            .emails(emails)
+            .build();
+
         willThrow(new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND))
             .given(teamMemberValidator).validateTeamHasMember(teamId, memberId);
 
         // expected
-        assertThatThrownBy(() -> invitationService.sendInvitationCode(teamId, memberId, emails))
+        assertThatThrownBy(() -> invitationService.sendInvitationCode(request))
             .isInstanceOf(EntityNotFoundException.class)
             .hasMessage(ErrorDetail.TEAM_MEMBER_NOT_FOUND.getMessage());
 
