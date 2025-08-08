@@ -4,12 +4,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import soon.planhub.domain.BaseEntity;
+
+import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -42,6 +40,10 @@ public class Team extends BaseEntity {
 
     public void refreshInvitationCode(InvitationCode invitationCode) {
         this.invitationCode = invitationCode;
+    }
+
+    public boolean shouldRefreshInvitationCode(LocalDateTime now) {
+        return this.invitationCode == null || this.invitationCode.isExpired(now);
     }
 
 }

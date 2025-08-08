@@ -8,14 +8,17 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import soon.planhub.domain.auth.controller.AuthController;
 import soon.planhub.domain.auth.service.AuthService;
+import soon.planhub.domain.team.controller.InvitationController;
 import soon.planhub.domain.team.controller.TeamController;
 import soon.planhub.domain.team.service.TeamService;
+import soon.planhub.domain.team.service.invitation.InvitationService;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(
     controllers = {
         AuthController.class,
-        TeamController.class
+        TeamController.class,
+        InvitationController.class,
     })
 public abstract class ControllerTestSupport {
 
@@ -30,5 +33,8 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected TeamService teamService;
+
+    @MockitoBean
+    protected InvitationService invitationService;
 
 }
