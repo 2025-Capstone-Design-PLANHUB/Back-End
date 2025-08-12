@@ -24,6 +24,8 @@ public enum ErrorDetail {
 
     // 팀원 관련
     TEAM_MEMBER_NOT_FOUND(404, "해당 팀원을 찾을 수 없습니다."),
+    TEAM_MEMBER_ALREADY_EXISTS(409, "해당 팀원은 이미 존재합니다."),
+
     ;
 
     private final int status;

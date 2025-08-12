@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import soon.planhub.domain.member.entity.Member;
 import soon.planhub.domain.team.entity.Team;
+import soon.planhub.domain.teammember.entity.Position;
 import soon.planhub.domain.teammember.entity.TeamMember;
 import soon.planhub.domain.teammember.repository.TeamMemberRepository;
 
@@ -20,6 +21,14 @@ public class TeamMemberAppender {
         teamMemberValidator.validateTeamHasNoLeader(team.getId());
 
         TeamMember teamMember = TeamMember.createLeader(member, team);
+        teamMemberRepository.save(teamMember);
+    }
+
+    @Transactional
+    public void appendToMember(Member member, Team team, Position position) {
+        teamMemberValidator.validateTeamHasNoMember(team.getId(), member.getId());
+
+        TeamMember teamMember = TeamMember.createMember(member, team, position);
         teamMemberRepository.save(teamMember);
     }
 
