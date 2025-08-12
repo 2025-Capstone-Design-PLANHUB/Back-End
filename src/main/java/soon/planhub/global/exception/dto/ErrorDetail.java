@@ -21,6 +21,7 @@ public enum ErrorDetail {
     TEAM_LEADER_ALREADY_EXISTS(409, "팀 리더가 이미 존재합니다."),
     TEAM_NOT_FOUND(404, "해당 팀을 찾을 수 없습니다."),
     IS_NOT_ADMIN_IN_ORGANIZATION(403, "관리자 권한이 없습니다"),
+    INVALID_INVITATION_CODE(400, "유효하지 않은 초대 코드입니다."),
 
     // 팀원 관련
     TEAM_MEMBER_NOT_FOUND(404, "해당 팀원을 찾을 수 없습니다."),
