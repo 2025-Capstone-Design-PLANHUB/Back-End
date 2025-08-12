@@ -1,18 +1,7 @@
 package soon.planhub.domain.teammember.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import soon.planhub.domain.BaseEntity;
 import soon.planhub.domain.member.entity.Member;
 import soon.planhub.domain.team.entity.Team;
@@ -54,10 +43,10 @@ public class TeamMember extends BaseEntity {
             .build();
     }
 
-    public static TeamMember createMember(Member member, Team team, Position position) {
+    public static TeamMember createMember(Member member, Team team, String position) {
         return TeamMember.builder()
             .role(Role.ROLE_MEMBER)
-            .position(position)
+            .position((position == null) ? Position.NONE : Position.from(position))
             .member(member)
             .team(team)
             .isVisible(true)

@@ -48,7 +48,7 @@ class TeamMemberAppenderTest extends IntegrationTestSupport {
         memberRepository.save(member);
 
         // when
-        teamMemberAppender.appendToLeader(member, team);
+        teamMemberAppender.appendToLeader(member.getId(), team);
 
         // then
         TeamMember teamMemberByTeam = teamMemberRepository.findByTeamId(team.getId());
@@ -67,10 +67,10 @@ class TeamMemberAppenderTest extends IntegrationTestSupport {
         memberRepository.save(member);
 
         // when
-        teamMemberAppender.appendToMember(member, team, Position.BACKEND);
+        Long teamId = teamMemberAppender.appendToMember(member.getId(), team.getId(), Position.BACKEND.name());
 
         // then
-        TeamMember teamMemberByTeam = teamMemberRepository.findByTeamId(team.getId());
+        TeamMember teamMemberByTeam = teamMemberRepository.findByTeamId(teamId);
         assertThat(teamMemberByTeam)
             .extracting("role", "position")
             .containsExactly(Role.ROLE_MEMBER, Position.BACKEND);
