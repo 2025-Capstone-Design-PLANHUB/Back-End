@@ -1,11 +1,11 @@
 package soon.planhub.domain.member.repository;
 
-import static soon.planhub.global.exception.dto.ErrorDetail.MEMBER_NOT_FOUND;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import soon.planhub.domain.member.entity.Member;
 import soon.planhub.global.exception.common.EntityNotFoundException;
+
+import static soon.planhub.global.exception.dto.ErrorDetail.MEMBER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Repository
@@ -21,6 +21,12 @@ public class MemberRepository {
     public Member findByNickname(String nickname) {
         return memberJpaRepository.findByNickname(nickname)
             .orElseThrow(() -> new EntityNotFoundException(MEMBER_NOT_FOUND));
+    }
+
+    public String findOauthTokenById(Long memberId) {
+        return memberJpaRepository.findById(memberId)
+            .orElseThrow(() -> new EntityNotFoundException(MEMBER_NOT_FOUND))
+            .getOauthToken();
     }
 
     public void save(Member member) {
