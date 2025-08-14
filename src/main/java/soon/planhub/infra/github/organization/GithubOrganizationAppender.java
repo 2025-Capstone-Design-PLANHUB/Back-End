@@ -2,6 +2,7 @@ package soon.planhub.infra.github.organization;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClient;
@@ -20,7 +21,8 @@ public class GithubOrganizationAppender {
 
     private final RestClientProvider restClientProvider;
 
-    public void appendMemberToOrg(String orgName, String nickname, String oauthToken) {
+    @Async
+    public void appendMemberToOrgAsync(String orgName, String nickname, String oauthToken) {
         RestClient client = restClientProvider.createClient(oauthToken);
 
         try {

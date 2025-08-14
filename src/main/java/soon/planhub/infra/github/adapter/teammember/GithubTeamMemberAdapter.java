@@ -24,7 +24,7 @@ public class GithubTeamMemberAdapter implements TeamMemberPort {
         Team team = teamRepository.findById(teamId);
         Member member = memberRepository.findById(memberId);
         String oauthToken = teamMemberReader.findLeaderOauthTokenByTeamId(teamId);
-        githubOrganizationAppender.appendMemberToOrg(team.getOrganizationName(), member.getNickname(), oauthToken);
+        githubOrganizationAppender.appendMemberToOrgAsync(team.getOrganizationName(), member.getNickname(), oauthToken);
     }
 
 }
