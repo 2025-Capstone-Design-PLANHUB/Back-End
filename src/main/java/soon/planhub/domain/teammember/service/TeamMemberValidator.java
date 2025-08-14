@@ -25,4 +25,10 @@ public class TeamMemberValidator {
         }
     }
 
+    public void validateTeamHasNoMember(Long teamId, Long memberId) {
+        if (teamMemberRepository.existsByTeamIdAndMemberId(teamId, memberId)) {
+            throw new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_ALREADY_EXISTS);
+        }
+    }
+
 }

@@ -9,7 +9,6 @@ import soon.planhub.domain.member.entity.Member;
 import soon.planhub.domain.member.repository.MemberRepository;
 import soon.planhub.domain.team.entity.Team;
 import soon.planhub.domain.team.repository.TeamRepository;
-import soon.planhub.domain.teammember.entity.Position;
 import soon.planhub.domain.teammember.entity.TeamMember;
 import soon.planhub.domain.teammember.repository.TeamMemberRepository;
 import soon.planhub.global.exception.common.EntityNotFoundException;
@@ -100,7 +99,7 @@ class TeamMemberValidatorTest extends IntegrationTestSupport {
         Member member = Member.create("Test email", "Test nickname", "Test profile image");
         memberRepository.save(member);
 
-        TeamMember teamMember = TeamMember.createMember(member, team, Position.NONE);
+        TeamMember teamMember = TeamMember.createMember(member, team, "NONE");
         teamMemberRepository.save(teamMember);
 
         // expected

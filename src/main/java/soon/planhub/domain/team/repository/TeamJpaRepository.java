@@ -25,4 +25,7 @@ public interface TeamJpaRepository extends JpaRepository<Team, Long> {
         String code, LocalDateTime now
     );
 
+    @Query("SELECT t FROM Team t WHERE t.invitationCode.code = :code AND t.invitationCode.expirationTime > :now")
+    Optional<Team> findTeamByValidInvitationCode(String code, LocalDateTime now);
+
 }

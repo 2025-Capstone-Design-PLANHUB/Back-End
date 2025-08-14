@@ -12,6 +12,7 @@ public enum ErrorDetail {
     INVALID_TOKEN(401, "유효하지 않은 토큰입니다."),
     UNAUTHORIZED(401, "인증되지 않은 사용자입니다."),
     EMAIL_SEND_FAILED(500, "이메일 전송에 실패했습니다."),
+    OAUTH_TOKEN_EXPIRED(401, "OAuth 토큰이 만료되었습니다."),
 
     // 회원 관련
     MEMBER_NOT_FOUND(404, "해당 회원을 찾을 수 없습니다."),
@@ -21,9 +22,12 @@ public enum ErrorDetail {
     TEAM_LEADER_ALREADY_EXISTS(409, "팀 리더가 이미 존재합니다."),
     TEAM_NOT_FOUND(404, "해당 팀을 찾을 수 없습니다."),
     IS_NOT_ADMIN_IN_ORGANIZATION(403, "관리자 권한이 없습니다"),
+    INVALID_INVITATION_CODE(400, "유효하지 않은 초대 코드입니다."),
 
     // 팀원 관련
     TEAM_MEMBER_NOT_FOUND(404, "해당 팀원을 찾을 수 없습니다."),
+    TEAM_MEMBER_ALREADY_EXISTS(409, "해당 팀원은 이미 존재합니다."),
+
     ;
 
     private final int status;

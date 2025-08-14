@@ -33,6 +33,11 @@ public class TeamRepository {
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_NOT_FOUND));
     }
 
+    public Team findTeamByValidInvitationCode(String code, LocalDateTime now) {
+        return teamJpaRepository.findTeamByValidInvitationCode(code, now)
+            .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.INVALID_INVITATION_CODE));
+    }
+
     public boolean existsByInvitationCode(String code, LocalDateTime now) {
         return teamJpaRepository.existsByInvitationCode_CodeAndInvitationCode_ExpirationTimeAfter(
             code, now
