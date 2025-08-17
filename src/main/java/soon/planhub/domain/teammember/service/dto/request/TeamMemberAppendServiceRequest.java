@@ -1,4 +1,4 @@
-package soon.planhub.domain.team.service.dto.request;
+package soon.planhub.domain.teammember.service.dto.request;
 
 import lombok.Builder;
 

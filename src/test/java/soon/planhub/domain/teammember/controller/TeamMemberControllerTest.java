@@ -4,13 +4,17 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import soon.planhub.ControllerTestSupport;
-import soon.planhub.domain.team.controller.dto.request.TeamMemberAppendRequest;
-import soon.planhub.domain.team.service.dto.request.TeamMemberAppendServiceRequest;
+import soon.planhub.domain.teammember.controller.dto.request.TeamMemberAppendRequest;
+import soon.planhub.domain.teammember.service.dto.request.TeamMemberAppendServiceRequest;
+import soon.planhub.domain.teammember.service.dto.response.TeamMemberDetailResponse;
 import soon.planhub.global.annotation.TestMemberId;
+
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -65,6 +69,34 @@ class TeamMemberControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.status").value(400))
             .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
             .andExpect(jsonPath("$.validation.invitationCode").value("초대 코드는 비어있을 수 없습니다."));
+    }
+
+    @TestMemberId
+    @DisplayName("팀원 목록을 조회한다.")
+    @Test
+    void getTeamMembers() throws Exception {
+        // given
+        long teamId = 1L;
+
+        given(teamMemberService.getTeamMembers(anyLong(), anyLong()))
+            .willReturn(List.of(
+                TeamMemberDetailResponse.builder()
+                    .nickname("test1")
+                    .build(),
+                TeamMemberDetailResponse.builder()
+                    .nickname("test2")
+                    .build()
+            ));
+
+        // expected
+        mockMvc.perform(
+                get(BASE_URL, teamId)
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].nickname").value("test1"))
+            .andExpect(jsonPath("$[1].nickname").value("test2"));
     }
 
 }

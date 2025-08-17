@@ -7,23 +7,24 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import soon.planhub.domain.team.service.TeamValidator;
-import soon.planhub.domain.team.service.dto.request.TeamMemberAppendServiceRequest;
 import soon.planhub.domain.teammember.entity.Position;
 import soon.planhub.domain.teammember.port.out.TeamMemberPort;
+import soon.planhub.domain.teammember.service.dto.request.TeamMemberAppendServiceRequest;
+import soon.planhub.domain.teammember.service.dto.response.TeamMemberDetailResponse;
+import soon.planhub.global.exception.common.EntityNotFoundException;
 import soon.planhub.global.exception.common.InvalidRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.BDDMockito.*;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static soon.planhub.global.exception.dto.ErrorDetail.INVALID_INVITATION_CODE;
-import static soon.planhub.global.exception.dto.ErrorDetail.INVALID_REQUEST;
+import static soon.planhub.global.exception.dto.ErrorDetail.*;
 
 @ExtendWith(MockitoExtension.class)
 class TeamMemberServiceTest {
@@ -36,6 +37,12 @@ class TeamMemberServiceTest {
 
     @Mock
     private TeamValidator teamValidator;
+
+    @Mock
+    private TeamMemberValidator teamMemberValidator;
+
+    @Mock
+    private TeamMemberReader teamMemberReader;
 
     @Mock
     private TeamMemberPort teamMemberPort;
@@ -84,6 +91,48 @@ class TeamMemberServiceTest {
         verify(teamValidator).validateInvitationCode(eq(invitationCode), any(LocalDateTime.class));
         verify(teamMemberPort, never()).appendMemberToOrg(teamId, memberId);
         verify(teamMemberAppender, never()).appendToMember(memberId, teamId, position);
+    }
+
+    @DisplayName("팀에 속한 멤버 목록을 조회한다.")
+    @Test
+    void getTeamMembersSuccessfully() {
+        // given
+        Long teamId = 1L;
+        Long memberId = 1L;
+        List<TeamMemberDetailResponse> mockResponses = List.of(
+            TeamMemberDetailResponse.builder().nickname("test1").build(),
+            TeamMemberDetailResponse.builder().nickname("test2").build()
+        );
+
+        willDoNothing().given(teamMemberValidator).validateTeamHasMember(anyLong(), anyLong());
+        given(teamMemberReader.getTeamMembers(anyLong())).willReturn(mockResponses);
+
+        // when
+        List<TeamMemberDetailResponse> responses = teamMemberService.getTeamMembers(teamId, memberId);
+
+        // then
+        verify(teamMemberValidator).validateTeamHasMember(eq(teamId), eq(memberId));
+        verify(teamMemberReader).getTeamMembers(eq(teamId));
+        assertThat(responses).hasSize(2)
+            .isEqualTo(mockResponses);
+    }
+
+    @DisplayName("팀원이 아닌 회원이 팀 멤버 목록을 조회하면 예외가 발생한다.")
+    @Test
+    void getMembersFromTeamWithoutJoining() {
+        // given
+        Long teamId = 1L;
+        Long memberId = 1L;
+
+        willThrow(new EntityNotFoundException(TEAM_MEMBER_NOT_FOUND))
+            .given(teamMemberValidator)
+            .validateTeamHasMember(anyLong(), anyLong());
+
+        // expected
+        assertThatThrownBy(() -> teamMemberService.getTeamMembers(teamId, memberId))
+            .isInstanceOf(EntityNotFoundException.class)
+            .hasMessage(TEAM_MEMBER_NOT_FOUND.getMessage());
+        verify(teamMemberReader, never()).getTeamMembers(anyLong());
     }
 
     private TeamMemberAppendServiceRequest createTeamMemberAppendServiceRequest(Long teamId, String invitationCode, String position) {

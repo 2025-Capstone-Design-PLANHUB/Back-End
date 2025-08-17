@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import soon.planhub.domain.teammember.entity.Role;
 import soon.planhub.domain.teammember.entity.TeamMember;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface TeamMemberJpaRepository extends JpaRepository<TeamMember, Long> {
@@ -17,5 +18,8 @@ public interface TeamMemberJpaRepository extends JpaRepository<TeamMember, Long>
 
     @Query("SELECT tm FROM TeamMember tm JOIN FETCH tm.member WHERE tm.team.id = :teamId AND tm.role = :role")
     Optional<TeamMember> findByTeamIdAndRole(Long teamId, Role role);
+
+    @Query("SELECT tm from TeamMember tm JOIN fetch tm.member WHERE tm.team.id = :teamId")
+    List<TeamMember> findAllByTeamId(Long teamId);
 
 }
