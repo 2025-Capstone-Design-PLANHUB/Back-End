@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 import soon.planhub.domain.member.entity.Member;
 import soon.planhub.global.exception.common.EntityNotFoundException;
 
+import java.util.List;
+
 import static soon.planhub.global.exception.dto.ErrorDetail.MEMBER_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -31,6 +33,10 @@ public class MemberRepository {
 
     public void save(Member member) {
         memberJpaRepository.save(member);
+    }
+
+    public void saveAll(List<Member> members) {
+        memberJpaRepository.saveAll(members);
     }
 
     public void deleteAllInBatch() {

@@ -7,6 +7,8 @@ import soon.planhub.domain.teammember.entity.TeamMember;
 import soon.planhub.global.exception.common.EntityNotFoundException;
 import soon.planhub.global.exception.dto.ErrorDetail;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Repository
 public class TeamMemberRepository {
@@ -17,6 +19,10 @@ public class TeamMemberRepository {
         teamMemberJpaRepository.save(teamMember);
     }
 
+    public void saveAll(List<TeamMember> teamMembers) {
+        teamMemberJpaRepository.saveAll(teamMembers);
+    }
+
     public TeamMember findByTeamId(Long teamId) {
         return teamMemberJpaRepository.findByTeamId(teamId)
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
@@ -25,6 +31,10 @@ public class TeamMemberRepository {
     public TeamMember findLeaderByTeamId(Long teamId) {
         return teamMemberJpaRepository.findByTeamIdAndRole(teamId, Role.ROLE_LEADER)
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
+    }
+
+    public List<TeamMember> findAllByTeamId(Long teamId) {
+        return teamMemberJpaRepository.findAllByTeamId(teamId);
     }
 
     public boolean existsByTeamIdAndMemberId(Long teamId, Long memberId) {
