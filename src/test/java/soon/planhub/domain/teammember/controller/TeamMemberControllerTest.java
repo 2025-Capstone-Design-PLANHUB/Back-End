@@ -4,8 +4,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import soon.planhub.ControllerTestSupport;
-import soon.planhub.domain.team.controller.dto.request.TeamMemberAppendRequest;
-import soon.planhub.domain.team.service.dto.request.TeamMemberAppendServiceRequest;
+import soon.planhub.domain.teammember.controller.dto.request.TeamMemberAppendRequest;
+import soon.planhub.domain.teammember.service.dto.request.TeamMemberAppendServiceRequest;
 import soon.planhub.global.annotation.TestMemberId;
 
 import static org.mockito.ArgumentMatchers.any;

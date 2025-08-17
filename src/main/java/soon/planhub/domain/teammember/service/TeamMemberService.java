@@ -3,8 +3,8 @@ package soon.planhub.domain.teammember.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import soon.planhub.domain.team.service.TeamValidator;
-import soon.planhub.domain.team.service.dto.request.TeamMemberAppendServiceRequest;
 import soon.planhub.domain.teammember.port.out.TeamMemberPort;
+import soon.planhub.domain.teammember.service.dto.request.TeamMemberAppendServiceRequest;
 
 import java.time.LocalDateTime;
 

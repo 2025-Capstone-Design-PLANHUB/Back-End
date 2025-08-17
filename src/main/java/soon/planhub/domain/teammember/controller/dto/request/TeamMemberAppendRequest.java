@@ -1,8 +1,8 @@
-package soon.planhub.domain.team.controller.dto.request;
+package soon.planhub.domain.teammember.controller.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-import soon.planhub.domain.team.service.dto.request.TeamMemberAppendServiceRequest;
+import soon.planhub.domain.teammember.service.dto.request.TeamMemberAppendServiceRequest;
 
 @Builder
 public record TeamMemberAppendRequest(

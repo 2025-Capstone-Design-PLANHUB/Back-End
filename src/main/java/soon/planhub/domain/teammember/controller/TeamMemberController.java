@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import soon.planhub.domain.team.controller.dto.request.TeamMemberAppendRequest;
+import soon.planhub.domain.teammember.controller.dto.request.TeamMemberAppendRequest;
 import soon.planhub.domain.teammember.service.TeamMemberService;
 import soon.planhub.global.annotation.AuthMemberId;
 
