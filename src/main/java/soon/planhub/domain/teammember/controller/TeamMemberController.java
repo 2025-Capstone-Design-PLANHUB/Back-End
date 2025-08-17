@@ -1,9 +1,13 @@
 package soon.planhub.domain.teammember.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import soon.planhub.domain.team.controller.dto.request.TeamMemberAppendRequest;
 import soon.planhub.domain.teammember.service.TeamMemberService;
+import soon.planhub.global.annotation.AuthMemberId;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/teams/{teamId}/members")
@@ -11,5 +15,16 @@ import soon.planhub.domain.teammember.service.TeamMemberService;
 public class TeamMemberController {
 
     private final TeamMemberService teamMemberService;
+
+    @PostMapping
+    public ResponseEntity<Long> joinTeam(
+        @Valid @RequestBody TeamMemberAppendRequest request,
+        @AuthMemberId Long memberId,
+        @PathVariable Long teamId
+    ) {
+        Long joinedTeamId = teamMemberService.append(request.toServiceRequest(teamId), memberId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(joinedTeamId);
+    }
 
 }
