@@ -12,12 +12,15 @@ import soon.planhub.domain.team.controller.InvitationController;
 import soon.planhub.domain.team.controller.TeamController;
 import soon.planhub.domain.team.service.TeamService;
 import soon.planhub.domain.team.service.invitation.InvitationService;
+import soon.planhub.domain.teammember.controller.TeamMemberController;
+import soon.planhub.domain.teammember.service.TeamMemberService;
 
 @AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(
     controllers = {
         AuthController.class,
         TeamController.class,
+        TeamMemberController.class,
         InvitationController.class,
     })
 public abstract class ControllerTestSupport {
@@ -33,6 +36,9 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected TeamService teamService;
+
+    @MockitoBean
+    protected TeamMemberService teamMemberService;
 
     @MockitoBean
     protected InvitationService invitationService;
