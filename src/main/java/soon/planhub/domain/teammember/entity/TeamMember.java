@@ -53,8 +53,8 @@ public class TeamMember extends BaseEntity {
             .build();
     }
 
-    public void updatePosition(Position position) {
-        this.position = position;
+    public void updatePosition(String position) {
+        this.position = (position == null) ? Position.NONE : Position.from(position);
     }
 
     public void updateVisibility(boolean isVisible) {
