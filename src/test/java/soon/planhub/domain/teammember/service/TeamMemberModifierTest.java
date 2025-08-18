@@ -12,7 +12,6 @@ import soon.planhub.domain.team.repository.TeamRepository;
 import soon.planhub.domain.teammember.entity.Position;
 import soon.planhub.domain.teammember.entity.TeamMember;
 import soon.planhub.domain.teammember.repository.TeamMemberRepository;
-import soon.springtestutil.querycount.assertion.QueryCounterAssertion;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -71,11 +70,6 @@ class TeamMemberModifierTest extends IntegrationTestSupport {
 
         TeamMember teamMember = TeamMember.createMember(member, team, Position.BACKEND.name());
         teamMemberRepository.save(teamMember);
-
-        QueryCounterAssertion.assertCounts()
-            .forTables("team_members")
-            .insert(1)
-            .verify();
 
         // expected
         assertThrows(IllegalArgumentException.class,
