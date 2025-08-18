@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import soon.planhub.domain.team.service.TeamValidator;
 import soon.planhub.domain.teammember.port.out.TeamMemberPort;
 import soon.planhub.domain.teammember.service.dto.request.TeamMemberAppendServiceRequest;
+import soon.planhub.domain.teammember.service.dto.request.TeamMemberPositionModifyServiceRequest;
 import soon.planhub.domain.teammember.service.dto.response.TeamMemberDetailResponse;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ public class TeamMemberService {
 
     private final TeamMemberAppender teamMemberAppender;
     private final TeamMemberReader teamMemberReader;
+    private final TeamMemberModifier teamMemberModifier;
     private final TeamMemberPort teamMemberPort;
     private final TeamValidator teamValidator;
     private final TeamMemberValidator teamMemberValidator;
@@ -31,6 +33,16 @@ public class TeamMemberService {
     public List<TeamMemberDetailResponse> getTeamMembers(Long teamId, Long memberId) {
         teamMemberValidator.validateTeamHasMember(teamId, memberId);
         return teamMemberReader.getTeamMembers(teamId);
+    }
+
+    public void updatePosition(TeamMemberPositionModifyServiceRequest request, Long memberId) {
+        teamMemberValidator.validateTeamHasMember(request.teamId(), memberId);
+        teamMemberModifier.updatePosition(request.teamMemberId(), request.position());
+    }
+
+    public void updateVisibility(Long teamId, Long memberId, boolean visible) {
+        teamMemberValidator.validateTeamHasMember(teamId, memberId);
+        teamMemberModifier.updateVisibility(teamId, memberId, visible);
     }
 
 }

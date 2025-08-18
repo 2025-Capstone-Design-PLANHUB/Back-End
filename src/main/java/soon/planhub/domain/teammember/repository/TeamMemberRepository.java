@@ -23,8 +23,18 @@ public class TeamMemberRepository {
         teamMemberJpaRepository.saveAll(teamMembers);
     }
 
+    public TeamMember findById(Long teamMemberId) {
+        return teamMemberJpaRepository.findById(teamMemberId)
+            .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
+    }
+
     public TeamMember findByTeamId(Long teamId) {
         return teamMemberJpaRepository.findByTeamId(teamId)
+            .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
+    }
+
+    public TeamMember findByTeamIdAndMemberId(Long teamId, Long memberId) {
+        return teamMemberJpaRepository.findByTeamIdAndMemberId(teamId, memberId)
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
     }
 

@@ -10,6 +10,7 @@ import soon.planhub.domain.team.service.TeamValidator;
 import soon.planhub.domain.teammember.entity.Position;
 import soon.planhub.domain.teammember.port.out.TeamMemberPort;
 import soon.planhub.domain.teammember.service.dto.request.TeamMemberAppendServiceRequest;
+import soon.planhub.domain.teammember.service.dto.request.TeamMemberPositionModifyServiceRequest;
 import soon.planhub.domain.teammember.service.dto.response.TeamMemberDetailResponse;
 import soon.planhub.global.exception.common.EntityNotFoundException;
 import soon.planhub.global.exception.common.InvalidRequest;
@@ -45,6 +46,9 @@ class TeamMemberServiceTest {
     private TeamMemberReader teamMemberReader;
 
     @Mock
+    private TeamMemberModifier teamMemberModifier;
+
+    @Mock
     private TeamMemberPort teamMemberPort;
 
     @DisplayName("팀에 멤버를 추가한다.")
@@ -55,7 +59,7 @@ class TeamMemberServiceTest {
         Long teamId = 1L;
         String position = Position.BACKEND.name();
         String invitationCode = "valid-code";
-        TeamMemberAppendServiceRequest request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
+        var request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
 
         given(teamMemberAppender.appendToMember(memberId, teamId, position)).willReturn(teamId);
 
@@ -77,7 +81,7 @@ class TeamMemberServiceTest {
         Long teamId = 1L;
         String position = Position.BACKEND.name();
         String invitationCode = "expired-code";
-        TeamMemberAppendServiceRequest request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
+        var request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
 
         willThrow(new InvalidRequest("invitationCode", INVALID_INVITATION_CODE.getMessage()))
             .given(teamValidator)
@@ -135,11 +139,65 @@ class TeamMemberServiceTest {
         verify(teamMemberReader, never()).getTeamMembers(anyLong());
     }
 
+    @DisplayName("팀원의 포지션을 수정한다.")
+    @Test
+    void updatePosition() {
+        // given
+        var request = getTeamMemberPositionModifyServiceRequest();
+
+        // when
+        teamMemberService.updatePosition(request, 1L);
+
+        // then
+        verify(teamMemberValidator).validateTeamHasMember(eq(request.teamId()), eq(1L));
+        verify(teamMemberModifier).updatePosition(eq(request.teamMemberId()), eq(request.position()));
+    }
+
+    @DisplayName("팀원이 아닌 회원이 포지션 변경을 요청하면 예외가 발생한다.")
+    @Test
+    void updatePositionFromTeamWithoutJoining() {
+        // given
+        var request = getTeamMemberPositionModifyServiceRequest();
+
+        willThrow(new EntityNotFoundException(TEAM_MEMBER_NOT_FOUND))
+            .given(teamMemberValidator)
+            .validateTeamHasMember(anyLong(), anyLong());
+
+        // expected
+        assertThatThrownBy(() -> teamMemberService.updatePosition(request, 1L))
+            .isInstanceOf(EntityNotFoundException.class)
+            .hasMessage(TEAM_MEMBER_NOT_FOUND.getMessage());
+    }
+
+    @DisplayName("팀원의 가시성을 수정한다.")
+    @Test
+    void updateVisibility() {
+        // given
+        long memberId = 1L;
+        long teamId = 1L;
+        boolean isVisible = false;
+
+        // when
+        teamMemberService.updateVisibility(teamId, memberId, isVisible);
+
+        // then
+        verify(teamMemberValidator).validateTeamHasMember(eq(teamId), eq(memberId));
+        verify(teamMemberModifier).updateVisibility(eq(teamId), eq(memberId), eq(isVisible));
+    }
+
     private TeamMemberAppendServiceRequest createTeamMemberAppendServiceRequest(Long teamId, String invitationCode, String position) {
         return TeamMemberAppendServiceRequest.builder()
             .teamId(teamId)
             .invitationCode(invitationCode)
             .position(position)
+            .build();
+    }
+
+    private TeamMemberPositionModifyServiceRequest getTeamMemberPositionModifyServiceRequest() {
+        return TeamMemberPositionModifyServiceRequest.builder()
+            .teamId(1L)
+            .teamMemberId(1L)
+            .position(Position.BACKEND.name())
             .build();
     }
 
