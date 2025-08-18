@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import soon.planhub.domain.teammember.controller.dto.request.TeamMemberAppendRequest;
+import soon.planhub.domain.teammember.controller.dto.request.TeamMemberPositionModifyRequest;
 import soon.planhub.domain.teammember.service.TeamMemberService;
 import soon.planhub.domain.teammember.service.dto.response.TeamMemberDetailResponse;
 import soon.planhub.global.annotation.AuthMemberId;
@@ -37,6 +38,16 @@ public class TeamMemberController {
     ) {
         List<TeamMemberDetailResponse> response = teamMemberService.getTeamMembers(teamId, memberId);
         return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/position")
+    public ResponseEntity<Void> updatePosition(
+        @Valid @RequestBody TeamMemberPositionModifyRequest request,
+        @AuthMemberId Long memberId,
+        @PathVariable Long teamId
+    ) {
+        teamMemberService.updatePosition(request.toServiceRequest(teamId), memberId);
+        return ResponseEntity.noContent().build();
     }
 
 }
