@@ -1,10 +1,5 @@
 package soon.planhub.domain.auth.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.BDDMockito.given;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +13,10 @@ import soon.planhub.global.exception.member.InvalidRefreshTokenException;
 import soon.planhub.global.security.jwt.dto.response.TokenResponse;
 import soon.planhub.global.security.jwt.provider.JwtProvider;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
+
 class AuthServiceTest extends IntegrationTestSupport {
 
     @Autowired
@@ -28,11 +27,6 @@ class AuthServiceTest extends IntegrationTestSupport {
 
     @MockitoBean
     private JwtProvider jwtProvider;
-
-    @AfterEach
-    void tearDown() {
-        memberRepository.deleteAllInBatch();
-    }
 
     @DisplayName("유효한 리프레시 토큰일 경우 새로운 토큰을 발급한다.")
     @Test

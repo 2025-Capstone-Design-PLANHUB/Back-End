@@ -1,6 +1,5 @@
 package soon.planhub.domain.team.service.invitation;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +31,6 @@ class InvitationCodeGeneratorTest extends IntegrationTestSupport {
 
     @MockitoBean
     private CodeGenerator codeGenerator;
-
-    @AfterEach
-    void tearDown() {
-        teamRepository.deleteAllInBatch();
-    }
 
     @DisplayName("초대코드가 존재하지 않는 경우 새로 생성한다.")
     @Test

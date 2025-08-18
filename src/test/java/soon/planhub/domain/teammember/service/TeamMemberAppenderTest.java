@@ -1,6 +1,5 @@
 package soon.planhub.domain.teammember.service;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,6 @@ class TeamMemberAppenderTest extends IntegrationTestSupport {
 
     @Autowired
     private TeamRepository teamRepository;
-
-    @AfterEach
-    void tearDown() {
-        teamMemberRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
-        teamRepository.deleteAllInBatch();
-    }
 
     @DisplayName("팀에 리더를 추가한다.")
     @Test

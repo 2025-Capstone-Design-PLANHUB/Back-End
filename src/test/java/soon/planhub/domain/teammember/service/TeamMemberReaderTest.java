@@ -1,6 +1,5 @@
 package soon.planhub.domain.teammember.service;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +31,6 @@ class TeamMemberReaderTest extends IntegrationTestSupport {
 
     @Autowired
     private TeamRepository teamRepository;
-
-    @AfterEach
-    void tearDown() {
-        teamMemberRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
-        teamRepository.deleteAllInBatch();
-    }
 
     @DisplayName("리더의 Oauth 토큰을 찾는다.")
     @Test

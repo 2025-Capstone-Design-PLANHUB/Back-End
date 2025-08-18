@@ -1,6 +1,5 @@
 package soon.planhub.domain.teammember.service;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +30,6 @@ class TeamMemberValidatorTest extends IntegrationTestSupport {
 
     @Autowired
     private MemberRepository memberRepository;
-
-    @AfterEach
-    void tearDown() {
-        teamMemberRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
-        teamRepository.deleteAllInBatch();
-    }
 
     @DisplayName("리더가 이미 존재하는 경우 예외가 발생한다")
     @Test
