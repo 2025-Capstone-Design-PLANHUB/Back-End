@@ -18,4 +18,10 @@ public class TeamMemberModifier {
         teamMember.updatePosition(position);
     }
 
+    @Transactional
+    public void updateVisibility(Long memberId, Long teamId, boolean isVisible) {
+        TeamMember teamMember = teamMemberRepository.findByTeamIdAndMemberId(teamId, memberId);
+        teamMember.updateVisibility(isVisible);
+    }
+
 }

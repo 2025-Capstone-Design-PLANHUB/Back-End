@@ -76,4 +76,25 @@ class TeamMemberModifierTest extends IntegrationTestSupport {
             () -> teamMemberModifier.updatePosition(teamMember.getId(), "INVALID_POSITION"));
     }
 
+    @DisplayName("해당 팀의 가시성을 변경한다.")
+    @Test
+    void updateVisibility() {
+        // given
+        Team team = Team.create("Test Team", "Test Description", "Test Organization");
+        teamRepository.save(team);
+
+        Member member = Member.create("Test email", "Test nickname", "Test profile image");
+        memberRepository.save(member);
+
+        TeamMember teamMember = TeamMember.createMember(member, team, Position.BACKEND.name());
+        teamMemberRepository.save(teamMember);
+
+        // when
+        teamMemberModifier.updateVisibility(member.getId(), team.getId(), false);
+
+        // then
+        TeamMember updatedTeamMember = teamMemberRepository.findById(teamMember.getId());
+        assertThat(updatedTeamMember.isVisible()).isFalse();
+    }
+
 }

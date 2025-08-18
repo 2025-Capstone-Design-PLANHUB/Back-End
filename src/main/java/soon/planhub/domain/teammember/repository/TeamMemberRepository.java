@@ -33,6 +33,11 @@ public class TeamMemberRepository {
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
     }
 
+    public TeamMember findByTeamIdAndMemberId(Long teamId, Long memberId) {
+        return teamMemberJpaRepository.findByTeamIdAndMemberId(teamId, memberId)
+            .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
+    }
+
     public TeamMember findLeaderByTeamId(Long teamId) {
         return teamMemberJpaRepository.findByTeamIdAndRole(teamId, Role.ROLE_LEADER)
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TEAM_MEMBER_NOT_FOUND));
