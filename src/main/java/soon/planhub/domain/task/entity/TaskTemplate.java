@@ -1,18 +1,7 @@
 package soon.planhub.domain.task.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import soon.planhub.domain.BaseEntity;
 import soon.planhub.domain.project.entity.Project;
 
@@ -45,14 +34,14 @@ public class TaskTemplate extends BaseEntity {
         String title,
         String description,
         String content,
-        TaskType type,
+        String type,
         Project project
     ) {
         return TaskTemplate.builder()
             .title(title)
             .description(description)
             .content(content)
-            .type(type)
+            .type((type == null) ? TaskType.Custom : TaskType.from(type))
             .project(project)
             .build();
     }
