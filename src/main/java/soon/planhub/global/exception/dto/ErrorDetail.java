@@ -28,6 +28,12 @@ public enum ErrorDetail {
     TEAM_MEMBER_NOT_FOUND(404, "해당 팀원을 찾을 수 없습니다."),
     TEAM_MEMBER_ALREADY_EXISTS(409, "해당 팀원은 이미 존재합니다."),
 
+    // 프로젝트 관련
+    PROJECT_NOT_FOUND(404, "해당 프로젝트를 찾을 수 없습니다."),
+
+    // 태스크 템플릿 관련
+    TASK_TEMPLATE_NOT_FOUND(404, "해당 태스크 템플릿을 찾을 수 없습니다.")
+
     ;
 
     private final int status;
