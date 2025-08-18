@@ -40,4 +40,9 @@ public class TeamMemberService {
         teamMemberModifier.updatePosition(request.teamMemberId(), request.position());
     }
 
+    public void updateVisibility(Long teamId, Long memberId, boolean visible) {
+        teamMemberValidator.validateTeamHasMember(teamId, memberId);
+        teamMemberModifier.updateVisibility(teamId, memberId, visible);
+    }
+
 }

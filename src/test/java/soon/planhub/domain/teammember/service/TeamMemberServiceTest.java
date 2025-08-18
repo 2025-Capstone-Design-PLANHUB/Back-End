@@ -59,7 +59,7 @@ class TeamMemberServiceTest {
         Long teamId = 1L;
         String position = Position.BACKEND.name();
         String invitationCode = "valid-code";
-        TeamMemberAppendServiceRequest request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
+        var request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
 
         given(teamMemberAppender.appendToMember(memberId, teamId, position)).willReturn(teamId);
 
@@ -81,7 +81,7 @@ class TeamMemberServiceTest {
         Long teamId = 1L;
         String position = Position.BACKEND.name();
         String invitationCode = "expired-code";
-        TeamMemberAppendServiceRequest request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
+        var request = createTeamMemberAppendServiceRequest(teamId, invitationCode, position);
 
         willThrow(new InvalidRequest("invitationCode", INVALID_INVITATION_CODE.getMessage()))
             .given(teamValidator)
@@ -143,7 +143,7 @@ class TeamMemberServiceTest {
     @Test
     void updatePosition() {
         // given
-        TeamMemberPositionModifyServiceRequest request = getTeamMemberPositionModifyServiceRequest();
+        var request = getTeamMemberPositionModifyServiceRequest();
 
         // when
         teamMemberService.updatePosition(request, 1L);
@@ -157,7 +157,7 @@ class TeamMemberServiceTest {
     @Test
     void updatePositionFromTeamWithoutJoining() {
         // given
-        TeamMemberPositionModifyServiceRequest request = getTeamMemberPositionModifyServiceRequest();
+        var request = getTeamMemberPositionModifyServiceRequest();
 
         willThrow(new EntityNotFoundException(TEAM_MEMBER_NOT_FOUND))
             .given(teamMemberValidator)
@@ -167,6 +167,22 @@ class TeamMemberServiceTest {
         assertThatThrownBy(() -> teamMemberService.updatePosition(request, 1L))
             .isInstanceOf(EntityNotFoundException.class)
             .hasMessage(TEAM_MEMBER_NOT_FOUND.getMessage());
+    }
+
+    @DisplayName("팀원의 가시성을 수정한다.")
+    @Test
+    void updateVisibility() {
+        // given
+        long memberId = 1L;
+        long teamId = 1L;
+        boolean isVisible = false;
+
+        // when
+        teamMemberService.updateVisibility(teamId, memberId, isVisible);
+
+        // then
+        verify(teamMemberValidator).validateTeamHasMember(eq(teamId), eq(memberId));
+        verify(teamMemberModifier).updateVisibility(eq(teamId), eq(memberId), eq(isVisible));
     }
 
     private TeamMemberAppendServiceRequest createTeamMemberAppendServiceRequest(Long teamId, String invitationCode, String position) {
