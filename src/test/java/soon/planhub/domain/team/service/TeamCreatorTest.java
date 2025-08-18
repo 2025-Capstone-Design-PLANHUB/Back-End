@@ -1,8 +1,5 @@
 package soon.planhub.domain.team.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +12,8 @@ import soon.planhub.domain.team.service.dto.TeamInformation;
 import soon.planhub.domain.teammember.entity.Role;
 import soon.planhub.domain.teammember.entity.TeamMember;
 import soon.planhub.domain.teammember.repository.TeamMemberRepository;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class TeamCreatorTest extends IntegrationTestSupport {
 
@@ -29,13 +28,6 @@ class TeamCreatorTest extends IntegrationTestSupport {
 
     @Autowired
     private TeamMemberRepository teamMemberRepository;
-
-    @AfterEach
-    void tearDown() {
-        teamMemberRepository.deleteAllInBatch();
-        teamRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
-    }
 
     @DisplayName("팀을 생성하고 생성자를 리더로 설정한다.")
     @Test

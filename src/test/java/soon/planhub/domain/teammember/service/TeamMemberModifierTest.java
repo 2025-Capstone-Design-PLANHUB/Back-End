@@ -1,6 +1,5 @@
 package soon.planhub.domain.teammember.service;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +28,6 @@ class TeamMemberModifierTest extends IntegrationTestSupport {
 
     @Autowired
     private TeamRepository teamRepository;
-
-    @AfterEach
-    void tearDown() {
-        teamMemberRepository.deleteAllInBatch();
-        memberRepository.deleteAllInBatch();
-        teamRepository.deleteAllInBatch();
-    }
 
     @DisplayName("포지션을 변경한다.")
     @Test
