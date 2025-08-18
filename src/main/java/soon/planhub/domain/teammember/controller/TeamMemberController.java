@@ -50,4 +50,14 @@ public class TeamMemberController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("/visibility")
+    public ResponseEntity<Void> updateVisibility(
+        @RequestParam("visible") boolean visible,
+        @AuthMemberId Long memberId,
+        @PathVariable Long teamId
+    ) {
+        teamMemberService.updateVisibility(teamId, memberId, visible);
+        return ResponseEntity.noContent().build();
+    }
+
 }

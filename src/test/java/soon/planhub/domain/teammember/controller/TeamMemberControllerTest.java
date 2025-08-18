@@ -142,4 +142,22 @@ class TeamMemberControllerTest extends ControllerTestSupport {
             .andExpect(jsonPath("$.validation.position").value("포지션은 비어있을 수 없습니다."));
     }
 
+    @TestMemberId
+    @DisplayName("본인의 팀에 대한 가시성을 변경한다.")
+    @Test
+    void updateVisibility() throws Exception {
+        // given
+        long teamId = 1L;
+        boolean visible = true;
+
+        // expected
+        mockMvc.perform(
+                patch(BASE_URL + "/visibility", teamId)
+                    .param("visible", String.valueOf(visible))
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andDo(print())
+            .andExpect(status().isNoContent());
+    }
+
 }
