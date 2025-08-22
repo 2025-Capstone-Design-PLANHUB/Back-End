@@ -1,4 +1,4 @@
-package soon.planhub.domain.task.service;
+package soon.planhub.domain.task.service.label;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import soon.planhub.domain.project.repository.ProjectRepository;
 import soon.planhub.domain.task.entity.TaskLabel;
 import soon.planhub.domain.task.repository.TaskLabelRepository;
 import soon.planhub.domain.task.service.dto.label.TaskLabelInformation;
-import soon.planhub.domain.task.service.label.TaskLabelCreator;
 import soon.planhub.domain.team.entity.Team;
 import soon.planhub.domain.team.repository.TeamRepository;
 
