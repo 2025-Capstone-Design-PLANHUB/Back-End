@@ -33,7 +33,7 @@ class InvitationControllerTest extends ControllerTestSupport {
 
         // expected
         mockMvc.perform(post(BASE_URL + "/invitation-codes", teamId, memberId))
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(content().string(expectedCode));
     }
 

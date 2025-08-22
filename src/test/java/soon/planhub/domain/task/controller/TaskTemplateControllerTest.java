@@ -42,7 +42,7 @@ class TaskTemplateControllerTest extends ControllerTestSupport {
                     .content(objectMapper.writeValueAsBytes(request))
             )
             .andDo(print())
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andExpect(jsonPath("$").value(1L));
     }
 
