@@ -1,10 +1,11 @@
 package soon.planhub.global.exception;
 
+import lombok.Getter;
+import soon.planhub.global.exception.dto.ErrorDetail;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import lombok.Getter;
-import soon.planhub.global.exception.dto.ErrorDetail;
 
 @Getter
 public abstract class PlanHubException extends RuntimeException {
@@ -14,6 +15,12 @@ public abstract class PlanHubException extends RuntimeException {
 
     public PlanHubException(ErrorDetail errorDetail) {
         super(errorDetail.getMessage());
+        this.errorDetail = errorDetail;
+        this.validation = new HashMap<>();
+    }
+
+    public PlanHubException(ErrorDetail errorDetail, Throwable cause) {
+        super(errorDetail.getMessage(), cause);
         this.errorDetail = errorDetail;
         this.validation = new HashMap<>();
     }

@@ -13,6 +13,7 @@ public enum ErrorDetail {
     UNAUTHORIZED(401, "인증되지 않은 사용자입니다."),
     EMAIL_SEND_FAILED(500, "이메일 전송에 실패했습니다."),
     OAUTH_TOKEN_EXPIRED(401, "OAuth 토큰이 만료되었습니다."),
+    GITHUB_API_ERROR(500, "GitHub API 호출 중 오류가 발생했습니다."),
 
     // 회원 관련
     MEMBER_NOT_FOUND(404, "해당 회원을 찾을 수 없습니다."),
@@ -32,7 +33,11 @@ public enum ErrorDetail {
     PROJECT_NOT_FOUND(404, "해당 프로젝트를 찾을 수 없습니다."),
 
     // 태스크 템플릿 관련
-    TASK_TEMPLATE_NOT_FOUND(404, "해당 태스크 템플릿을 찾을 수 없습니다.")
+    TASK_TEMPLATE_NOT_FOUND(404, "해당 태스크 템플릿을 찾을 수 없습니다."),
+
+    // 태스크 라벨 관련
+    TASK_LABEL_NOT_FOUND(404, "해당 태스크 라벨을 찾을 수 없습니다."),
+    TASK_LABEL_ALREADY_EXISTS(409, "이미 존재하는 라벨입니다."),
 
     ;
 
