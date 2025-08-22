@@ -5,4 +5,6 @@ import soon.planhub.domain.task.entity.TaskLabel;
 
 public interface TaskLabelJpaRepository extends JpaRepository<TaskLabel, Long> {
 
+    boolean existsByTitleAndProjectId(String title, Long projectId);
+
 }

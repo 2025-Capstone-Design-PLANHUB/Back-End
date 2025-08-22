@@ -32,7 +32,11 @@ public enum ErrorDetail {
     PROJECT_NOT_FOUND(404, "해당 프로젝트를 찾을 수 없습니다."),
 
     // 태스크 템플릿 관련
-    TASK_TEMPLATE_NOT_FOUND(404, "해당 태스크 템플릿을 찾을 수 없습니다.")
+    TASK_TEMPLATE_NOT_FOUND(404, "해당 태스크 템플릿을 찾을 수 없습니다."),
+
+    // 태스크 라벨 관련
+    TASK_LABEL_NOT_FOUND(404, "해당 태스크 라벨을 찾을 수 없습니다."),
+    TASK_LABEL_ALREADY_EXISTS(409, "이미 존재하는 라벨입니다."),
 
     ;
 
