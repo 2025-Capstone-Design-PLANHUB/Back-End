@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import soon.planhub.domain.task.controller.dto.request.label.TaskLabelCreateRequest;
+import soon.planhub.domain.task.controller.dto.request.label.TaskLabelUpdateRequest;
 import soon.planhub.domain.task.service.label.TaskLabelService;
 import soon.planhub.global.annotation.AuthMemberId;
 
@@ -24,6 +25,17 @@ public class TaskLabelController {
     ) {
         Long labelId = taskLabelService.createLabel(request.toServiceRequest(teamId), memberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(labelId);
+    }
+
+    @PatchMapping("/{labelId}")
+    public ResponseEntity<Void> updateLabel(
+        @Valid @RequestBody TaskLabelUpdateRequest request,
+        @AuthMemberId Long memberId,
+        @PathVariable Long teamId,
+        @PathVariable Long labelId
+    ) {
+        taskLabelService.updateLabel(request.toServiceRequest(teamId, labelId), memberId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
