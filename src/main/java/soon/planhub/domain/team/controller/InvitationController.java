@@ -2,6 +2,7 @@ package soon.planhub.domain.team.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import soon.planhub.domain.team.controller.dto.request.InvitationSendRequest;
@@ -22,7 +23,7 @@ public class InvitationController {
     ) {
         String invitationCode = invitationService.generateInvitationCode(teamId, memberId);
 
-        return ResponseEntity.ok(invitationCode);
+        return ResponseEntity.status(HttpStatus.CREATED).body(invitationCode);
     }
 
     @PostMapping("/invitations")
