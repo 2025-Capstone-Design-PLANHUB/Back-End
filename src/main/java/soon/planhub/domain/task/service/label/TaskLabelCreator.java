@@ -2,6 +2,7 @@ package soon.planhub.domain.task.service.label;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import soon.planhub.domain.project.entity.Project;
 import soon.planhub.domain.project.repository.ProjectRepository;
 import soon.planhub.domain.task.entity.TaskLabel;
@@ -15,6 +16,7 @@ public class TaskLabelCreator {
     private final TaskLabelRepository taskLabelRepository;
     private final ProjectRepository projectRepository;
 
+    @Transactional
     public Long createLabel(TaskLabelInformation info, Long projectId) {
         Project project = projectRepository.findById(projectId);
         TaskLabel label = TaskLabel.create(info.title(), info.description(), info.color(), project);
