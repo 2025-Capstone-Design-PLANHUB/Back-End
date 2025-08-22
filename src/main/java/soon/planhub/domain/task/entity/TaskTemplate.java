@@ -50,12 +50,12 @@ public class TaskTemplate extends BaseEntity {
         String title,
         String description,
         String content,
-        TaskType type
+        String type
     ) {
         this.title = title;
         this.description = description;
         this.content = content;
-        this.type = type;
+        this.type = TaskType.from(type);
     }
 
 }

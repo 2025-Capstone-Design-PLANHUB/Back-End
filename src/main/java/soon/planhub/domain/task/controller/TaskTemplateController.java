@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import soon.planhub.domain.task.controller.dto.request.template.TaskTemplateCreateRequest;
+import soon.planhub.domain.task.controller.dto.request.template.TaskTemplateUpdateRequest;
 import soon.planhub.domain.task.service.template.TaskTemplateService;
 import soon.planhub.global.annotation.AuthMemberId;
 
@@ -23,6 +24,17 @@ public class TaskTemplateController {
     ) {
         Long taskTemplateId = taskTemplateService.create(request.toServiceRequest(teamId), memberId);
         return ResponseEntity.ok(taskTemplateId);
+    }
+
+    @PatchMapping("/{taskTemplateId}")
+    public ResponseEntity<Void> updateTaskTemplate(
+        @Valid @RequestBody TaskTemplateUpdateRequest request,
+        @AuthMemberId Long memberId,
+        @PathVariable Long teamId,
+        @PathVariable Long taskTemplateId
+    ) {
+        taskTemplateService.update(request.toServiceRequest(teamId, taskTemplateId), memberId);
+        return ResponseEntity.noContent().build();
     }
 
 }

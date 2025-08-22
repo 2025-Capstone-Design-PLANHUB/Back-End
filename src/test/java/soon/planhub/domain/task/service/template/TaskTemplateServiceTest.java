@@ -7,6 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import soon.planhub.domain.task.service.dto.template.request.TaskTemplateCreateServiceRequest;
+import soon.planhub.domain.task.service.dto.template.request.TaskTemplateUpdateServiceRequest;
 import soon.planhub.domain.teammember.service.TeamMemberValidator;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -49,6 +50,28 @@ class TaskTemplateServiceTest {
         verify(teamMemberValidator).validateTeamHasMember(request.teamId(), 1L);
         verify(taskTemplateProcessor).createTaskTemplate(request.toInfo(), projectId);
         assertThat(savedTemplateId).isEqualTo(1L);
+    }
+
+    @DisplayName("템플릿을 수정한다.")
+    @Test
+    void updateTaskTemplate() {
+        // given
+        long taskTemplateId = 1L;
+        var request = TaskTemplateUpdateServiceRequest.builder()
+            .teamId(1L)
+            .taskTemplateId(taskTemplateId)
+            .title("Updated title")
+            .description("Updated description")
+            .content("Updated content")
+            .type("FIX")
+            .build();
+
+        // when
+        taskTemplateService.update(request, 1L);
+
+        // then
+        verify(teamMemberValidator).validateTeamHasMember(request.teamId(), 1L);
+        verify(taskTemplateProcessor).updateTaskTemplate(request.toInfo(), taskTemplateId);
     }
 
 }

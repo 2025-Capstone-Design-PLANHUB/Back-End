@@ -3,6 +3,7 @@ package soon.planhub.domain.task.service.template;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import soon.planhub.domain.task.service.dto.template.request.TaskTemplateCreateServiceRequest;
+import soon.planhub.domain.task.service.dto.template.request.TaskTemplateUpdateServiceRequest;
 import soon.planhub.domain.teammember.service.TeamMemberValidator;
 
 @RequiredArgsConstructor
@@ -15,6 +16,11 @@ public class TaskTemplateService {
     public Long create(TaskTemplateCreateServiceRequest request, Long memberId) {
         teamMemberValidator.validateTeamHasMember(request.teamId(), memberId);
         return taskTemplateProcessor.createTaskTemplate(request.toInfo(), request.projectId());
+    }
+
+    public void update(TaskTemplateUpdateServiceRequest request, Long memberId) {
+        teamMemberValidator.validateTeamHasMember(request.teamId(), memberId);
+        taskTemplateProcessor.updateTaskTemplate(request.toInfo(), request.taskTemplateId());
     }
 
 }

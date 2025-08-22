@@ -8,6 +8,7 @@ import soon.planhub.domain.task.controller.dto.request.template.TaskTemplateCrea
 import soon.planhub.global.annotation.TestMemberId;
 
 import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -43,6 +44,30 @@ class TaskTemplateControllerTest extends ControllerTestSupport {
             .andDo(print())
             .andExpect(status().isOk())
             .andExpect(jsonPath("$").value(1L));
+    }
+
+    @TestMemberId
+    @DisplayName("템플릿을 수정한다.")
+    @Test
+    void updateTaskTemplate() throws Exception {
+        // given
+        Long teamId = 1L;
+        Long taskTemplateId = 1L;
+        var request = TaskTemplateCreateRequest.builder()
+            .title("Updated title")
+            .description("Updated description")
+            .content("Updated content")
+            .type("Fix")
+            .build();
+
+        // expected
+        mockMvc.perform(
+                patch(BASE_URL + "/{taskTemplateId}", teamId, taskTemplateId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsBytes(request))
+            )
+            .andDo(print())
+            .andExpect(status().isNoContent());
     }
 
 }

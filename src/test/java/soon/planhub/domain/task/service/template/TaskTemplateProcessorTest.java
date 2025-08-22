@@ -39,12 +39,7 @@ class TaskTemplateProcessorTest extends IntegrationTestSupport {
         Project project = Project.create("Test title", "Test repositoryId", 1L, team);
         projectRepository.save(project);
 
-        TaskTemplateInformation info = TaskTemplateInformation.builder()
-            .title("Test title")
-            .description("Test description")
-            .content("Test content")
-            .type(TaskType.Fix.name())
-            .build();
+        TaskTemplateInformation info = createTaskTemplateInfo();
 
         // when
         Long savedTaskTemplateId = taskTemplateProcessor.createTaskTemplate(info, project.getId());
@@ -54,6 +49,44 @@ class TaskTemplateProcessorTest extends IntegrationTestSupport {
         assertThat(savedTemplate).isNotNull()
             .extracting("title", "description", "content", "type")
             .containsExactly("Test title", "Test description", "Test content", TaskType.Fix);
+    }
+
+    @DisplayName("탬플릿을 수정한다.")
+    @Test
+    void updateTaskTemplate() {
+        // given
+        Team team = Team.create("Test name", "Test description", "Test org");
+        teamRepository.save(team);
+
+        Project project = Project.create("Test title", "Test repositoryId", 1L, team);
+        projectRepository.save(project);
+
+        TaskTemplate taskTemplate = TaskTemplate.create(
+            "Init title",
+            "Init description",
+            "Init content",
+            TaskType.Custom.name(),
+            project
+        );
+        taskTemplateRepository.save(taskTemplate);
+
+        // when
+        taskTemplateProcessor.updateTaskTemplate(createTaskTemplateInfo(), taskTemplate.getId());
+
+        // then
+        TaskTemplate updatedTemplate = taskTemplateRepository.findById(taskTemplate.getId());
+        assertThat(updatedTemplate).isNotNull()
+            .extracting("title", "description", "content", "type")
+            .containsExactly("Test title", "Test description", "Test content", TaskType.Fix);
+    }
+
+    private TaskTemplateInformation createTaskTemplateInfo() {
+        return TaskTemplateInformation.builder()
+            .title("Test title")
+            .description("Test description")
+            .content("Test content")
+            .type(TaskType.Fix.name())
+            .build();
     }
 
 }
