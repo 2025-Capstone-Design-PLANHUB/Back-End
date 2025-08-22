@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import soon.planhub.domain.task.controller.dto.label.request.TaskLabelCreateRequest;
+import soon.planhub.domain.task.controller.dto.request.label.TaskLabelCreateRequest;
 import soon.planhub.domain.task.service.label.TaskLabelService;
 import soon.planhub.global.annotation.AuthMemberId;
 

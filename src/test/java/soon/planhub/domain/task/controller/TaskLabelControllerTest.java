@@ -3,7 +3,7 @@ package soon.planhub.domain.task.controller;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import soon.planhub.ControllerTestSupport;
-import soon.planhub.domain.task.controller.dto.label.request.TaskLabelCreateRequest;
+import soon.planhub.domain.task.controller.dto.request.label.TaskLabelCreateRequest;
 import soon.planhub.global.annotation.TestMemberId;
 import soon.planhub.global.exception.dto.ErrorDetail;
 import soon.planhub.global.exception.task.label.AlreadyIssueLabelException;

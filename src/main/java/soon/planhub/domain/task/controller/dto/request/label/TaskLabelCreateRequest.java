@@ -1,4 +1,4 @@
-package soon.planhub.domain.task.controller.dto.label.request;
+package soon.planhub.domain.task.controller.dto.request.label;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
