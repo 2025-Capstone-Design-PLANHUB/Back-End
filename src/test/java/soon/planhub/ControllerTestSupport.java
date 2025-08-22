@@ -8,7 +8,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import soon.planhub.domain.auth.controller.AuthController;
 import soon.planhub.domain.auth.service.AuthService;
+import soon.planhub.domain.task.controller.TaskLabelController;
 import soon.planhub.domain.task.controller.TaskTemplateController;
+import soon.planhub.domain.task.service.label.TaskLabelService;
 import soon.planhub.domain.task.service.template.TaskTemplateService;
 import soon.planhub.domain.team.controller.InvitationController;
 import soon.planhub.domain.team.controller.TeamController;
@@ -24,7 +26,8 @@ import soon.planhub.domain.teammember.service.TeamMemberService;
         TeamController.class,
         TeamMemberController.class,
         InvitationController.class,
-        TaskTemplateController.class
+        TaskTemplateController.class,
+        TaskLabelController.class,
     })
 public abstract class ControllerTestSupport {
 
@@ -48,5 +51,8 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected TaskTemplateService taskTemplateService;
+
+    @MockitoBean
+    protected TaskLabelService taskLabelService;
 
 }
