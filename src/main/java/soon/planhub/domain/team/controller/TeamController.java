@@ -2,6 +2,7 @@ package soon.planhub.domain.team.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,7 @@ public class TeamController {
         @AuthMemberId Long memberId
     ) {
         Long teamId = teamService.createTeam(request.toServiceRequest(), memberId);
-        return ResponseEntity.ok(teamId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(teamId);
     }
 
 }
