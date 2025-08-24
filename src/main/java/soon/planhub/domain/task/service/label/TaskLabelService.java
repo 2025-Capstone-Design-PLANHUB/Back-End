@@ -2,6 +2,7 @@ package soon.planhub.domain.task.service.label;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import soon.planhub.domain.task.entity.TaskLabel;
 import soon.planhub.domain.task.port.out.TaskLabelPort;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelCreateServiceRequest;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelUpdateServiceRequest;
@@ -12,6 +13,8 @@ public class TaskLabelService {
 
     private final TaskLabelCreator taskLabelCreator;
     private final TaskLabelModifier taskLabelModifier;
+    private final TaskLabelRemover taskLabelRemover;
+    private final TaskLabelReader taskLabelReader;
     private final TaskLabelValidator taskLabelValidator;
     private final TaskLabelPort taskLabelPort;
 
@@ -29,6 +32,12 @@ public class TaskLabelService {
 
         taskLabelModifier.updateLabel(request.toInfo(), request.labelId());
         taskLabelPort.updateLabel(request, memberId); // github API 호출
+    }
+
+    public void deleteLabel(Long memberId, Long teamId, Long labelId) {
+        TaskLabel label = taskLabelReader.getLabelById(labelId);
+        taskLabelRemover.deleteLabel(label.getId());
+        taskLabelPort.deleteLabel(memberId, label.getProject().getId(), label.getTitle()); // github API 호출
     }
 
 }

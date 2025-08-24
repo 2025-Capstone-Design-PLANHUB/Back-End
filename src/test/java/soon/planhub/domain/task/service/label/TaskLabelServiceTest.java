@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import soon.planhub.domain.project.entity.Project;
+import soon.planhub.domain.task.entity.TaskLabel;
 import soon.planhub.domain.task.port.out.TaskLabelPort;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelCreateServiceRequest;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelUpdateServiceRequest;
@@ -13,9 +15,9 @@ import soon.planhub.global.exception.common.InvalidRequest;
 import soon.planhub.global.exception.dto.ErrorDetail;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaskLabelServiceTest {
@@ -28,6 +30,12 @@ class TaskLabelServiceTest {
 
     @Mock
     private TaskLabelModifier taskLabelModifier;
+
+    @Mock
+    private TaskLabelRemover taskLabelRemover;
+
+    @Mock
+    private TaskLabelReader taskLabelReader;
 
     @Mock
     private TaskLabelValidator taskLabelValidator;
@@ -151,6 +159,34 @@ class TaskLabelServiceTest {
         verify(taskLabelValidator).validateLabelNotExists(request.newTitle(), request.projectId());
         verify(taskLabelModifier, never()).updateLabel(request.toInfo(), request.labelId());
         verify(taskLabelPort, never()).updateLabel(request, 1L);
+    }
+
+    @DisplayName("라벨을 삭제한다.")
+    @Test
+    void deleteLabel() {
+        // given
+        Long memberId = 1L;
+        Long teamId = 1L;
+        Long labelId = 1L;
+        Long projectId = 1L;
+        String labelTitle = "deleteLabel";
+
+        TaskLabel mockLabel = mock(TaskLabel.class);
+        given(mockLabel.getId()).willReturn(labelId);
+        given(mockLabel.getTitle()).willReturn(labelTitle);
+        given(taskLabelReader.getLabelById(labelId)).willReturn(mockLabel);
+
+        Project mockProject = mock(Project.class);
+        given(mockLabel.getProject()).willReturn(mockProject);
+        given(mockProject.getId()).willReturn(projectId);
+
+        // when
+        taskLabelService.deleteLabel(memberId, teamId, labelId);
+
+        // then
+        verify(taskLabelReader).getLabelById(labelId);
+        verify(taskLabelRemover).deleteLabel(labelId);
+        verify(taskLabelPort).deleteLabel(memberId, projectId, labelTitle);
     }
 
 }

@@ -9,4 +9,8 @@ public class TaskLabelRelationRepository {
 
     private final TaskLabelRelationJpaRepository taskLabelRelationJpaRepository;
 
+    public void deleteAllByTaskLabelId(Long taskLabelId) {
+        taskLabelRelationJpaRepository.deleteAllByTaskLabelId(taskLabelId);
+    }
+
 }
