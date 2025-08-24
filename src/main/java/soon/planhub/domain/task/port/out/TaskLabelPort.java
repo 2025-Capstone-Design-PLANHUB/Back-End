@@ -9,4 +9,6 @@ public interface TaskLabelPort {
 
     void updateLabel(TaskLabelUpdateServiceRequest request, Long memberId);
 
+    void deleteLabel(Long memberId, Long projectId, String title);
+
 }
