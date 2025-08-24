@@ -6,7 +6,10 @@ import soon.planhub.domain.task.entity.TaskLabel;
 import soon.planhub.domain.task.port.out.TaskLabelPort;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelCreateServiceRequest;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelUpdateServiceRequest;
+import soon.planhub.domain.task.service.dto.label.response.TaskLabelDetailResponse;
 import soon.planhub.global.annotation.TeamMembership;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -40,6 +43,12 @@ public class TaskLabelService {
         TaskLabel label = taskLabelReader.getLabelById(labelId);
         taskLabelRemover.deleteLabel(label.getId());
         taskLabelPort.deleteLabel(memberId, label.getProject().getId(), label.getTitle()); // github API 호출
+    }
+
+    @TeamMembership
+    public List<TaskLabelDetailResponse> getLabels(Long teamId, Long memberId, Long projectId) {
+        List<TaskLabelDetailResponse> labels = taskLabelPort.getLabels(memberId, projectId);// github API 호출
+        return taskLabelReader.readLabels(projectId, labels);
     }
 
 }

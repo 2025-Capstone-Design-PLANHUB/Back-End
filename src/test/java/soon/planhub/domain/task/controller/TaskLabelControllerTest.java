@@ -5,9 +5,12 @@ import org.junit.jupiter.api.Test;
 import soon.planhub.ControllerTestSupport;
 import soon.planhub.domain.task.controller.dto.request.label.TaskLabelCreateRequest;
 import soon.planhub.domain.task.controller.dto.request.label.TaskLabelUpdateRequest;
+import soon.planhub.domain.task.service.dto.label.response.TaskLabelDetailResponse;
 import soon.planhub.global.annotation.TestMemberId;
 import soon.planhub.global.exception.dto.ErrorDetail;
 import soon.planhub.global.exception.task.label.AlreadyIssueLabelException;
+
+import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
@@ -189,6 +192,44 @@ class TaskLabelControllerTest extends ControllerTestSupport {
         mockMvc.perform(delete(BASE_URL + "/{labelId}", teamId, labelId))
             .andDo(print())
             .andExpect(status().isNoContent());
+    }
+
+    @TestMemberId
+    @DisplayName("라벨 목록을 조회한다.")
+    @Test
+    void getLabels() throws Exception {
+        // given
+        Long teamId = 1L;
+        Long projectId = 1L;
+
+        List<TaskLabelDetailResponse> mockLabels = List.of(
+            createLabelResponse(1L, "Label1", "#FF5733", "Description1"),
+            createLabelResponse(2L, "Label2", "#33FF57", "Description2")
+        );
+        given(taskLabelService.getLabels(teamId, 1L, projectId)).willReturn(mockLabels);
+
+        // expected
+        mockMvc.perform(
+                get(BASE_URL, teamId)
+                    .param("projectId", String.valueOf(projectId))
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$[0].labelId").value(1L))
+            .andExpect(jsonPath("$[0].name").value("Label1"))
+            .andExpect(jsonPath("$[0].color").value("#FF5733"));
+
+        verify(taskLabelService).getLabels(teamId, 1L, projectId);
+    }
+
+    private TaskLabelDetailResponse createLabelResponse(long labelId, String name, String hashtag, String description) {
+        return TaskLabelDetailResponse.builder()
+            .labelId(labelId)
+            .name(name)
+            .color(hashtag)
+            .description(description)
+            .build();
     }
 
 }

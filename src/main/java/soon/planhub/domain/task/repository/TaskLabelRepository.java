@@ -6,6 +6,8 @@ import soon.planhub.domain.task.entity.TaskLabel;
 import soon.planhub.global.exception.common.EntityNotFoundException;
 import soon.planhub.global.exception.dto.ErrorDetail;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Repository
 public class TaskLabelRepository {
@@ -16,9 +18,17 @@ public class TaskLabelRepository {
         taskLabelJpaRepository.save(label);
     }
 
+    public void saveAll(List<TaskLabel> labels) {
+        taskLabelJpaRepository.saveAll(labels);
+    }
+
     public TaskLabel findById(Long id) {
         return taskLabelJpaRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException(ErrorDetail.TASK_LABEL_NOT_FOUND));
+    }
+
+    public List<TaskLabel> findAllByProjectId(Long projectId) {
+        return taskLabelJpaRepository.findAllByProjectId(projectId);
     }
 
     public boolean existsByTitleAndProjectId(String title, Long projectId) {

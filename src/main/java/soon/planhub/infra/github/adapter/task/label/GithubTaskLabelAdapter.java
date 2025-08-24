@@ -8,12 +8,17 @@ import soon.planhub.domain.project.repository.ProjectRepository;
 import soon.planhub.domain.task.port.out.TaskLabelPort;
 import soon.planhub.domain.task.service.dto.label.TaskLabelInformation;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelUpdateServiceRequest;
+import soon.planhub.domain.task.service.dto.label.response.TaskLabelDetailResponse;
 import soon.planhub.infra.github.dto.GithubIssueLabelCreateRequest;
 import soon.planhub.infra.github.dto.GithubIssueLabelDeleteRequest;
+import soon.planhub.infra.github.dto.GithubIssueLabelGetRequest;
 import soon.planhub.infra.github.dto.GithubIssueLabelUpdateRequest;
 import soon.planhub.infra.github.task.label.GithubIssueLabelCreator;
 import soon.planhub.infra.github.task.label.GithubIssueLabelModifier;
+import soon.planhub.infra.github.task.label.GithubIssueLabelReader;
 import soon.planhub.infra.github.task.label.GithubIssueLabelRemover;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Component
@@ -24,6 +29,7 @@ public class GithubTaskLabelAdapter implements TaskLabelPort {
     private final GithubIssueLabelCreator githubIssueLabelCreator;
     private final GithubIssueLabelModifier githubIssueLabelModifier;
     private final GithubIssueLabelRemover githubIssueLabelRemover;
+    private final GithubIssueLabelReader githubIssueLabelReader;
 
     @Override
     public void createLabel(TaskLabelInformation info, Long memberId, Long projectId) {
@@ -41,6 +47,12 @@ public class GithubTaskLabelAdapter implements TaskLabelPort {
     public void deleteLabel(Long memberId, Long projectId, String title) {
         Context context = getContext(memberId, projectId);
         githubIssueLabelRemover.deleteGithubIssueLabelAsync(GithubIssueLabelDeleteRequest.from(context.oauthToken, context.project, title));
+    }
+
+    @Override
+    public List<TaskLabelDetailResponse> getLabels(Long memberId, Long projectId) {
+        Context context = getContext(memberId, projectId);
+        return githubIssueLabelReader.getGithubIssueLabels(GithubIssueLabelGetRequest.from(context.oauthToken, context.project));
     }
 
     private Context getContext(Long memberId, Long projectId) {
