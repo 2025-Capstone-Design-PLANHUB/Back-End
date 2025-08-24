@@ -29,9 +29,7 @@ public class TaskLabelService {
 
     @TeamMembership
     public void updateLabel(Long teamId, Long memberId, TaskLabelUpdateServiceRequest request) {
-        if (!request.oldTitle().equals(request.newTitle())) {
-            taskLabelValidator.validateLabelNotExists(request.newTitle(), request.projectId());
-        }
+        taskLabelValidator.validateLabelUpdate(request.oldTitle(), request.newTitle(), request.projectId());
 
         taskLabelModifier.updateLabel(request.toInfo(), request.labelId());
         taskLabelPort.updateLabel(request, memberId); // github API 호출
