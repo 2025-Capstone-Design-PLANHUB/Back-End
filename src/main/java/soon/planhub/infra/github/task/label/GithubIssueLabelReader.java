@@ -23,6 +23,7 @@ public class GithubIssueLabelReader {
 
     private final RestClientProvider restClientProvider;
 
+    // TODO: 캐싱 고려
     public List<TaskLabelDetailResponse> getGithubIssueLabels(GithubIssueLabelGetRequest request) {
         try {
             RestClient restClient = restClientProvider.createClient(request.token());

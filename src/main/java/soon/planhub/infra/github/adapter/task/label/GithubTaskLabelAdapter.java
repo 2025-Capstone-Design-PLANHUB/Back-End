@@ -49,6 +49,7 @@ public class GithubTaskLabelAdapter implements TaskLabelPort {
         githubIssueLabelRemover.deleteGithubIssueLabelAsync(GithubIssueLabelDeleteRequest.from(context.oauthToken, context.project, title));
     }
 
+    @Override
     public List<TaskLabelDetailResponse> getLabels(Long memberId, Long projectId) {
         Context context = getContext(memberId, projectId);
         return githubIssueLabelReader.getGithubIssueLabels(GithubIssueLabelGetRequest.from(context.oauthToken, context.project));
