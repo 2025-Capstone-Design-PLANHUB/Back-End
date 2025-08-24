@@ -6,8 +6,7 @@ import lombok.Builder;
 public record TeamMemberAppendServiceRequest(
 
     String invitationCode,
-    String position,
-    Long teamId
+    String position
 
 ) {
 

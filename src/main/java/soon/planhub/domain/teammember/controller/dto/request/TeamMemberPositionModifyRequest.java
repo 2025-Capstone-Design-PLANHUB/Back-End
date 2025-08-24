@@ -18,9 +18,8 @@ public record TeamMemberPositionModifyRequest(
 
 ) {
 
-    public TeamMemberPositionModifyServiceRequest toServiceRequest(Long teamId) {
+    public TeamMemberPositionModifyServiceRequest toServiceRequest() {
         return TeamMemberPositionModifyServiceRequest.builder()
-            .teamId(teamId)
             .teamMemberId(teamMemberId)
             .position(position)
             .build();

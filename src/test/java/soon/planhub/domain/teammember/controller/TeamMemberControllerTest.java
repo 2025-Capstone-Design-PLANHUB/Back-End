@@ -35,7 +35,7 @@ class TeamMemberControllerTest extends ControllerTestSupport {
             .position("BACKEND")
             .build();
 
-        given(teamMemberService.append(any(TeamMemberAppendServiceRequest.class), anyLong()))
+        given(teamMemberService.append(anyLong(), anyLong(), any(TeamMemberAppendServiceRequest.class)))
             .willReturn(teamId);
 
         // expected
