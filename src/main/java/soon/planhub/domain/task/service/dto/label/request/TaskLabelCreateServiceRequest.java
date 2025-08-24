@@ -6,7 +6,6 @@ import soon.planhub.domain.task.service.dto.label.TaskLabelInformation;
 @Builder
 public record TaskLabelCreateServiceRequest(
 
-    Long teamId,
     Long projectId,
     String title,
     String description,

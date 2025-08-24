@@ -6,6 +6,7 @@ import soon.planhub.domain.task.entity.TaskLabel;
 import soon.planhub.domain.task.port.out.TaskLabelPort;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelCreateServiceRequest;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelUpdateServiceRequest;
+import soon.planhub.global.annotation.TeamMembership;
 
 @RequiredArgsConstructor
 @Service
@@ -18,14 +19,16 @@ public class TaskLabelService {
     private final TaskLabelValidator taskLabelValidator;
     private final TaskLabelPort taskLabelPort;
 
-    public Long createLabel(TaskLabelCreateServiceRequest request, Long memberId) {
+    @TeamMembership
+    public Long createLabel(Long teamId, Long memberId, TaskLabelCreateServiceRequest request) {
         taskLabelValidator.validateLabelNotExists(request.title(), request.projectId());
 
         taskLabelPort.createLabel(request.toInfo(), memberId, request.projectId()); // github API 호출
         return taskLabelCreator.createLabel(request.toInfo(), request.projectId());
     }
 
-    public void updateLabel(TaskLabelUpdateServiceRequest request, Long memberId) {
+    @TeamMembership
+    public void updateLabel(Long teamId, Long memberId, TaskLabelUpdateServiceRequest request) {
         if (!request.oldTitle().equals(request.newTitle())) {
             taskLabelValidator.validateLabelNotExists(request.newTitle(), request.projectId());
         }
@@ -34,7 +37,8 @@ public class TaskLabelService {
         taskLabelPort.updateLabel(request, memberId); // github API 호출
     }
 
-    public void deleteLabel(Long memberId, Long teamId, Long labelId) {
+    @TeamMembership
+    public void deleteLabel(Long teamId, Long memberId, Long labelId) {
         TaskLabel label = taskLabelReader.getLabelById(labelId);
         taskLabelRemover.deleteLabel(label.getId());
         taskLabelPort.deleteLabel(memberId, label.getProject().getId(), label.getTitle()); // github API 호출
