@@ -27,14 +27,13 @@ public record TaskTemplateCreateRequest(
 
 ) {
 
-    public TaskTemplateCreateServiceRequest toServiceRequest(Long teamId) {
+    public TaskTemplateCreateServiceRequest toServiceRequest() {
         return TaskTemplateCreateServiceRequest.builder()
             .title(title)
             .description(description)
             .content(content)
             .type(type)
             .projectId(projectId)
-            .teamId(teamId)
             .build();
     }
 

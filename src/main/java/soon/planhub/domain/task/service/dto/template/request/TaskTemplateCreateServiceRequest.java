@@ -10,8 +10,7 @@ public record TaskTemplateCreateServiceRequest(
     String description,
     String content,
     String type,
-    Long projectId,
-    Long teamId
+    Long projectId
 
 ) {
 

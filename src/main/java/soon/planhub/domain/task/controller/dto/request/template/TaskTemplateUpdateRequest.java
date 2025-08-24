@@ -13,9 +13,8 @@ public record TaskTemplateUpdateRequest(
 
 ) {
 
-    public TaskTemplateUpdateServiceRequest toServiceRequest(Long teamId, Long taskTemplateId) {
+    public TaskTemplateUpdateServiceRequest toServiceRequest(Long taskTemplateId) {
         return TaskTemplateUpdateServiceRequest.builder()
-            .teamId(teamId)
             .taskTemplateId(taskTemplateId)
             .title(title)
             .description(description)

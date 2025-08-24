@@ -23,7 +23,7 @@ public class TaskTemplateController {
         @AuthMemberId Long memberId,
         @PathVariable Long teamId
     ) {
-        Long taskTemplateId = taskTemplateService.create(request.toServiceRequest(teamId), memberId);
+        Long taskTemplateId = taskTemplateService.create(teamId, memberId, request.toServiceRequest());
         return ResponseEntity.status(HttpStatus.CREATED).body(taskTemplateId);
     }
 
@@ -34,7 +34,7 @@ public class TaskTemplateController {
         @PathVariable Long teamId,
         @PathVariable Long taskTemplateId
     ) {
-        taskTemplateService.update(request.toServiceRequest(teamId, taskTemplateId), memberId);
+        taskTemplateService.update(teamId, memberId, request.toServiceRequest(taskTemplateId));
         return ResponseEntity.noContent().build();
     }
 

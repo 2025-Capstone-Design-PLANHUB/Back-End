@@ -6,7 +6,6 @@ import soon.planhub.domain.task.service.dto.template.TaskTemplateInformation;
 @Builder
 public record TaskTemplateUpdateServiceRequest(
 
-    Long teamId,
     Long taskTemplateId,
     String title,
     String description,
