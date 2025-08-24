@@ -13,8 +13,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -176,6 +175,20 @@ class TaskLabelControllerTest extends ControllerTestSupport {
             .andExpect(status().isConflict())
             .andExpect(jsonPath("$.status").value(ErrorDetail.TASK_LABEL_ALREADY_EXISTS.getStatus()))
             .andExpect(jsonPath("$.message").value(ErrorDetail.TASK_LABEL_ALREADY_EXISTS.getMessage()));
+    }
+
+    @TestMemberId
+    @DisplayName("라벨을 삭제한다.")
+    @Test
+    void deleteLabel() throws Exception {
+        // given
+        Long teamId = 1L;
+        Long labelId = 100L;
+
+        // expected
+        mockMvc.perform(delete(BASE_URL + "/{labelId}", teamId, labelId))
+            .andDo(print())
+            .andExpect(status().isNoContent());
     }
 
 }

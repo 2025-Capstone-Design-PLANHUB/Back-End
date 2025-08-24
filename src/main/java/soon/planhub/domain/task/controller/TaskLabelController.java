@@ -38,4 +38,14 @@ public class TaskLabelController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @DeleteMapping("/{labelId}")
+    public ResponseEntity<Void> deleteLabel(
+        @AuthMemberId Long memberId,
+        @PathVariable Long teamId,
+        @PathVariable Long labelId
+    ) {
+        taskLabelService.deleteLabel(memberId, teamId, labelId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 }
