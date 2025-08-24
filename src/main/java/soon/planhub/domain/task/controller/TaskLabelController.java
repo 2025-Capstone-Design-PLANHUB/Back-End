@@ -7,8 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import soon.planhub.domain.task.controller.dto.request.label.TaskLabelCreateRequest;
 import soon.planhub.domain.task.controller.dto.request.label.TaskLabelUpdateRequest;
+import soon.planhub.domain.task.service.dto.label.response.TaskLabelDetailResponse;
 import soon.planhub.domain.task.service.label.TaskLabelService;
 import soon.planhub.global.annotation.AuthMemberId;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/teams/{teamId}/task-labels")
@@ -46,6 +49,16 @@ public class TaskLabelController {
     ) {
         taskLabelService.deleteLabel(teamId, memberId, labelId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<TaskLabelDetailResponse>> getLabels(
+        @AuthMemberId Long memberId,
+        @PathVariable Long teamId,
+        @RequestParam Long projectId
+    ) {
+        List<TaskLabelDetailResponse> response = taskLabelService.getLabels(teamId, memberId, projectId);
+        return ResponseEntity.ok(response);
     }
 
 }
