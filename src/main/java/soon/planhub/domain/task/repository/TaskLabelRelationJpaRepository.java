@@ -5,4 +5,6 @@ import soon.planhub.domain.task.entity.TaskLabelRelation;
 
 public interface TaskLabelRelationJpaRepository extends JpaRepository<TaskLabelRelation, Long> {
 
+    void deleteAllByTaskLabelId(Long taskLabelId);
+
 }

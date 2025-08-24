@@ -25,4 +25,8 @@ public class TaskLabelRepository {
         return taskLabelJpaRepository.existsByTitleAndProjectId(title, projectId);
     }
 
+    public void deleteById(Long id) {
+        taskLabelJpaRepository.deleteById(id);
+    }
+
 }
