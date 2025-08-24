@@ -7,8 +7,6 @@ import java.util.List;
 @Builder
 public record InvitationSendServiceRequest(
 
-    Long teamId,
-    Long memberId,
     List<String> emails
 
 ) {

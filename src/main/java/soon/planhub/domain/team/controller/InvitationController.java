@@ -32,7 +32,7 @@ public class InvitationController {
         @AuthMemberId Long memberId,
         @PathVariable Long teamId
     ) {
-        invitationService.sendInvitationCode(request.toServiceRequest(teamId, memberId));
+        invitationService.sendInvitationCode(teamId, memberId, request.toServiceRequest());
 
         return ResponseEntity.noContent().build();
     }

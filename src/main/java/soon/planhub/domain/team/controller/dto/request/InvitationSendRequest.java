@@ -17,10 +17,8 @@ public record InvitationSendRequest(
 
 ) {
 
-    public InvitationSendServiceRequest toServiceRequest(Long teamId, Long memberId) {
+    public InvitationSendServiceRequest toServiceRequest() {
         return InvitationSendServiceRequest.builder()
-            .teamId(teamId)
-            .memberId(memberId)
             .emails(emails)
             .build();
     }
