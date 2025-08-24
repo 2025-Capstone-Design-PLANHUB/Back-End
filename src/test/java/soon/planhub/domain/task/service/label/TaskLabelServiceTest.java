@@ -11,9 +11,13 @@ import soon.planhub.domain.task.entity.TaskLabel;
 import soon.planhub.domain.task.port.out.TaskLabelPort;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelCreateServiceRequest;
 import soon.planhub.domain.task.service.dto.label.request.TaskLabelUpdateServiceRequest;
+import soon.planhub.domain.task.service.dto.label.response.TaskLabelDetailResponse;
 import soon.planhub.global.exception.common.InvalidRequest;
 import soon.planhub.global.exception.dto.ErrorDetail;
 
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.willThrow;
@@ -105,7 +109,7 @@ class TaskLabelServiceTest {
         taskLabelService.updateLabel(1L, 1L, request);
 
         // then
-        verify(taskLabelValidator).validateLabelNotExists(request.newTitle(), request.projectId());
+        verify(taskLabelValidator).validateLabelUpdate(request.oldTitle(), request.newTitle(), request.projectId());
         verify(taskLabelModifier).updateLabel(request.toInfo(), request.labelId());
         verify(taskLabelPort).updateLabel(request, 1L);
     }
@@ -147,14 +151,14 @@ class TaskLabelServiceTest {
 
         willThrow(new InvalidRequest())
             .given(taskLabelValidator)
-            .validateLabelNotExists(request.newTitle(), request.projectId());
+            .validateLabelUpdate(request.oldTitle(), request.newTitle(), request.projectId());
 
         // expected
         assertThatThrownBy(() -> taskLabelService.updateLabel(1L, 1L, request))
             .isInstanceOf(InvalidRequest.class)
             .hasMessage(ErrorDetail.INVALID_REQUEST.getMessage());
 
-        verify(taskLabelValidator).validateLabelNotExists(request.newTitle(), request.projectId());
+        verify(taskLabelValidator).validateLabelUpdate(request.oldTitle(), request.newTitle(), request.projectId());
         verify(taskLabelModifier, never()).updateLabel(request.toInfo(), request.labelId());
         verify(taskLabelPort, never()).updateLabel(request, 1L);
     }
@@ -185,6 +189,41 @@ class TaskLabelServiceTest {
         verify(taskLabelReader).getLabelById(labelId);
         verify(taskLabelRemover).deleteLabel(labelId);
         verify(taskLabelPort).deleteLabel(memberId, projectId, labelTitle);
+    }
+
+    @DisplayName("라벨을 조회한다.")
+    @Test
+    void readLabels() {
+        // given
+        Long memberId = 1L;
+        Long teamId = 1L;
+        Long projectId = 1L;
+
+        List<TaskLabelDetailResponse> mockResponses = List.of(
+            createLabelResponse(1L, "Test title1", "#FFFFFF", "Test description1"),
+            createLabelResponse(2L, "Test title2", "#000000", "Test description2")
+        );
+
+        given(taskLabelPort.getLabels(memberId, projectId)).willReturn(mockResponses);
+        given(taskLabelReader.readLabels(projectId, mockResponses)).willReturn(mockResponses);
+
+        // when
+        List<TaskLabelDetailResponse> labels = taskLabelService.getLabels(teamId, memberId, projectId);
+
+        // then
+        assertThat(labels).isEqualTo(mockResponses);
+
+        verify(taskLabelPort).getLabels(memberId, projectId);
+        verify(taskLabelReader).readLabels(projectId, mockResponses);
+    }
+
+    private static TaskLabelDetailResponse createLabelResponse(long labelId, String name, String hashtag, String description) {
+        return TaskLabelDetailResponse.builder()
+            .labelId(labelId)
+            .name(name)
+            .color(hashtag)
+            .description(description)
+            .build();
     }
 
 }
