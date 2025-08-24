@@ -48,7 +48,6 @@ class TaskLabelServiceTest {
     void createLabel() {
         // given
         var request = TaskLabelCreateServiceRequest.builder()
-            .teamId(1L)
             .projectId(1L)
             .title("New Label")
             .description("This is a new label")
@@ -56,7 +55,7 @@ class TaskLabelServiceTest {
             .build();
 
         // when
-        Long savedLabelId = taskLabelService.createLabel(request, 1L);
+        Long savedLabelId = taskLabelService.createLabel(1L, 1L, request);
 
         // then
         verify(taskLabelValidator).validateLabelNotExists(request.title(), request.projectId());
@@ -69,7 +68,6 @@ class TaskLabelServiceTest {
     void createLabelWhenLabelAlreadyExists() {
         // given
         var request = TaskLabelCreateServiceRequest.builder()
-            .teamId(1L)
             .projectId(1L)
             .title("Existing Label")
             .description("This label already exists")
@@ -82,7 +80,7 @@ class TaskLabelServiceTest {
 
 
         // expected
-        assertThatThrownBy(() -> taskLabelService.createLabel(request, 1L))
+        assertThatThrownBy(() -> taskLabelService.createLabel(1L, 1L, request))
             .isInstanceOf(InvalidRequest.class)
             .hasMessage(ErrorDetail.INVALID_REQUEST.getMessage());
 
@@ -104,7 +102,7 @@ class TaskLabelServiceTest {
             .build();
 
         // when
-        taskLabelService.updateLabel(request, 1L);
+        taskLabelService.updateLabel(1L, 1L, request);
 
         // then
         verify(taskLabelValidator).validateLabelNotExists(request.newTitle(), request.projectId());
@@ -126,7 +124,7 @@ class TaskLabelServiceTest {
             .build();
 
         // when
-        taskLabelService.updateLabel(request, 1L);
+        taskLabelService.updateLabel(1L, 1L, request);
 
         // then
         verify(taskLabelValidator, never()).validateLabelNotExists(request.newTitle(), request.projectId());
@@ -152,7 +150,7 @@ class TaskLabelServiceTest {
             .validateLabelNotExists(request.newTitle(), request.projectId());
 
         // expected
-        assertThatThrownBy(() -> taskLabelService.updateLabel(request, 1L))
+        assertThatThrownBy(() -> taskLabelService.updateLabel(1L, 1L, request))
             .isInstanceOf(InvalidRequest.class)
             .hasMessage(ErrorDetail.INVALID_REQUEST.getMessage());
 
@@ -181,7 +179,7 @@ class TaskLabelServiceTest {
         given(mockProject.getId()).willReturn(projectId);
 
         // when
-        taskLabelService.deleteLabel(memberId, teamId, labelId);
+        taskLabelService.deleteLabel(teamId, memberId, labelId);
 
         // then
         verify(taskLabelReader).getLabelById(labelId);

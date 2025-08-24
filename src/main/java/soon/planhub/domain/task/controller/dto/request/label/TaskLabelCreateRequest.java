@@ -24,9 +24,8 @@ public record TaskLabelCreateRequest(
 
 ) {
 
-    public TaskLabelCreateServiceRequest toServiceRequest(Long teamId) {
+    public TaskLabelCreateServiceRequest toServiceRequest() {
         return TaskLabelCreateServiceRequest.builder()
-            .teamId(teamId)
             .projectId(projectId)
             .title(title)
             .description(description)

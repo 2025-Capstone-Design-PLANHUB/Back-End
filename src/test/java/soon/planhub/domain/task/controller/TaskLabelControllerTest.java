@@ -34,7 +34,7 @@ class TaskLabelControllerTest extends ControllerTestSupport {
             .color("#FFFFFF")
             .build();
 
-        given(taskLabelService.createLabel(request.toServiceRequest(1L), 1L))
+        given(taskLabelService.createLabel(1L, 1L, request.toServiceRequest()))
             .willReturn(1L);
 
         // expected
@@ -79,7 +79,7 @@ class TaskLabelControllerTest extends ControllerTestSupport {
             .color("#FFFFFF")
             .build();
 
-        given(taskLabelService.createLabel(request.toServiceRequest(1L), 1L))
+        given(taskLabelService.createLabel(1L, 1L, request.toServiceRequest()))
             .willThrow(new AlreadyIssueLabelException(ErrorDetail.TASK_LABEL_ALREADY_EXISTS));
 
         // expected
@@ -118,7 +118,7 @@ class TaskLabelControllerTest extends ControllerTestSupport {
             .andDo(print())
             .andExpect(status().isNoContent());
 
-        verify(taskLabelService).updateLabel(request.toServiceRequest(teamId, labelId), memberId);
+        verify(taskLabelService).updateLabel(teamId, memberId, request.toServiceRequest(labelId));
     }
 
     @TestMemberId
@@ -164,7 +164,7 @@ class TaskLabelControllerTest extends ControllerTestSupport {
 
         doThrow(new AlreadyIssueLabelException(ErrorDetail.TASK_LABEL_ALREADY_EXISTS))
             .when(taskLabelService)
-            .updateLabel(request.toServiceRequest(1L, 1L), 1L);
+            .updateLabel(1L, 1L, request.toServiceRequest(1L));
 
         // expected
         mockMvc.perform(

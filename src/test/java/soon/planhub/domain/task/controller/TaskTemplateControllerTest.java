@@ -24,6 +24,7 @@ class TaskTemplateControllerTest extends ControllerTestSupport {
     void createTaskTemplate() throws Exception {
         // given
         Long teamId = 1L;
+        Long memberId = 1L;
         var request = TaskTemplateCreateRequest.builder()
             .title("Test title")
             .description("Test description")
@@ -32,7 +33,7 @@ class TaskTemplateControllerTest extends ControllerTestSupport {
             .projectId(1L)
             .build();
 
-        given(taskTemplateService.create(request.toServiceRequest(teamId), 1L))
+        given(taskTemplateService.create(teamId, memberId, request.toServiceRequest()))
             .willReturn(1L);
 
         // expected

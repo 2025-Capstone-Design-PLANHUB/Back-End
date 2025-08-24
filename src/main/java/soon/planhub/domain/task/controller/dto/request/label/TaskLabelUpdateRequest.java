@@ -27,9 +27,8 @@ public record TaskLabelUpdateRequest(
 
 ) {
 
-    public TaskLabelUpdateServiceRequest toServiceRequest(Long teamId, Long labelId) {
+    public TaskLabelUpdateServiceRequest toServiceRequest(Long labelId) {
         return TaskLabelUpdateServiceRequest.builder()
-            .teamId(teamId)
             .projectId(projectId)
             .labelId(labelId)
             .newTitle(newTitle)

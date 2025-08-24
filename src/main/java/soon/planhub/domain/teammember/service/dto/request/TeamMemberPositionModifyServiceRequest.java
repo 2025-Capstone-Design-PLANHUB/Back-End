@@ -6,7 +6,6 @@ import lombok.Builder;
 public record TeamMemberPositionModifyServiceRequest(
 
     Long teamMemberId,
-    Long teamId,
     String position
 
 ) {

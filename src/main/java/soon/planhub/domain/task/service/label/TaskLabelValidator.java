@@ -12,6 +12,12 @@ public class TaskLabelValidator {
 
     private final TaskLabelRepository taskLabelRepository;
 
+    public void validateLabelUpdate(String oldTitle, String newTitle, Long projectId) {
+        if (!oldTitle.equals(newTitle)) {
+            validateLabelNotExists(newTitle, projectId);
+        }
+    }
+
     public void validateLabelNotExists(String title, Long projectId) {
         boolean isAlready = taskLabelRepository.existsByTitleAndProjectId(title, projectId);
         if (isAlready) {

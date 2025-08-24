@@ -15,11 +15,10 @@ public record TeamMemberAppendRequest(
 
 ) {
 
-    public TeamMemberAppendServiceRequest toServiceRequest(Long teamId) {
+    public TeamMemberAppendServiceRequest toServiceRequest() {
         return TeamMemberAppendServiceRequest.builder()
             .invitationCode(invitationCode)
             .position(position)
-            .teamId(teamId)
             .build();
     }
 

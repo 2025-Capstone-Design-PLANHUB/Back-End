@@ -23,7 +23,7 @@ public class TaskLabelController {
         @AuthMemberId Long memberId,
         @PathVariable Long teamId
     ) {
-        Long labelId = taskLabelService.createLabel(request.toServiceRequest(teamId), memberId);
+        Long labelId = taskLabelService.createLabel(teamId, memberId, request.toServiceRequest());
         return ResponseEntity.status(HttpStatus.CREATED).body(labelId);
     }
 
@@ -34,7 +34,7 @@ public class TaskLabelController {
         @PathVariable Long teamId,
         @PathVariable Long labelId
     ) {
-        taskLabelService.updateLabel(request.toServiceRequest(teamId, labelId), memberId);
+        taskLabelService.updateLabel(teamId, memberId, request.toServiceRequest(labelId));
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -44,7 +44,7 @@ public class TaskLabelController {
         @PathVariable Long teamId,
         @PathVariable Long labelId
     ) {
-        taskLabelService.deleteLabel(memberId, teamId, labelId);
+        taskLabelService.deleteLabel(teamId, memberId, labelId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 

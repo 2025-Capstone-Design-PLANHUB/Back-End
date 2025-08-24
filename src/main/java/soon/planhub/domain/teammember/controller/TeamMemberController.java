@@ -26,7 +26,7 @@ public class TeamMemberController {
         @AuthMemberId Long memberId,
         @PathVariable Long teamId
     ) {
-        Long joinedTeamId = teamMemberService.append(request.toServiceRequest(teamId), memberId);
+        Long joinedTeamId = teamMemberService.append(teamId, memberId, request.toServiceRequest());
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(joinedTeamId);
     }
@@ -46,7 +46,7 @@ public class TeamMemberController {
         @AuthMemberId Long memberId,
         @PathVariable Long teamId
     ) {
-        teamMemberService.updatePosition(request.toServiceRequest(teamId), memberId);
+        teamMemberService.updatePosition(teamId, memberId, request.toServiceRequest());
         return ResponseEntity.noContent().build();
     }
 

@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import soon.planhub.domain.task.service.dto.template.request.TaskTemplateCreateServiceRequest;
 import soon.planhub.domain.task.service.dto.template.request.TaskTemplateUpdateServiceRequest;
-import soon.planhub.domain.teammember.service.TeamMemberValidator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -23,16 +22,12 @@ class TaskTemplateServiceTest {
     @Mock
     private TaskTemplateProcessor taskTemplateProcessor;
 
-    @Mock
-    private TeamMemberValidator teamMemberValidator;
-
     @DisplayName("템플릿을 생성한다.")
     @Test
     void createTaskTemplate() {
         // given
         long projectId = 1L;
         var request = TaskTemplateCreateServiceRequest.builder()
-            .teamId(1L)
             .projectId(projectId)
             .title("Test title")
             .description("Test description")
@@ -44,10 +39,9 @@ class TaskTemplateServiceTest {
             .willReturn(1L);
 
         // when
-        Long savedTemplateId = taskTemplateService.create(request, 1L);
+        Long savedTemplateId = taskTemplateService.create(1L, 1L, request);
 
         // then
-        verify(teamMemberValidator).validateTeamHasMember(request.teamId(), 1L);
         verify(taskTemplateProcessor).createTaskTemplate(request.toInfo(), projectId);
         assertThat(savedTemplateId).isEqualTo(1L);
     }
@@ -58,7 +52,6 @@ class TaskTemplateServiceTest {
         // given
         long taskTemplateId = 1L;
         var request = TaskTemplateUpdateServiceRequest.builder()
-            .teamId(1L)
             .taskTemplateId(taskTemplateId)
             .title("Updated title")
             .description("Updated description")
@@ -67,10 +60,9 @@ class TaskTemplateServiceTest {
             .build();
 
         // when
-        taskTemplateService.update(request, 1L);
+        taskTemplateService.update(1L, 1L, request);
 
         // then
-        verify(teamMemberValidator).validateTeamHasMember(request.teamId(), 1L);
         verify(taskTemplateProcessor).updateTaskTemplate(request.toInfo(), taskTemplateId);
     }
 
