@@ -1,7 +1,6 @@
 package soon.planhub.global.security.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -22,6 +21,11 @@ import soon.planhub.global.security.jwt.filter.JwtAuthenticationFilter;
 import soon.planhub.global.security.jwt.handler.JwtAccessDeniedHandler;
 import soon.planhub.global.security.jwt.handler.JwtAuthenticationEntryPoint;
 import soon.planhub.global.security.jwt.provider.JwtProvider;
+import soon.planhub.global.security.oauth2.handler.OAuth2FailureHandler;
+import soon.planhub.global.security.oauth2.handler.OAuth2SuccessHandler;
+import soon.planhub.global.security.oauth2.service.OAuth2GithubService;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Profile("!test")
@@ -35,6 +39,10 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    private final OAuth2GithubService oauth2GithubService;
+    private final OAuth2SuccessHandler oauth2SuccessHandler;
+    private final OAuth2FailureHandler oauth2FailureHandler;
 
     private final ObjectMapper objectMapper;
 
@@ -60,6 +68,16 @@ public class SecurityConfig {
                     .anyRequest()
                     .authenticated();
             });
+
+        http
+            .oauth2Login(oauth2 -> {
+                oauth2
+                    .userInfoEndpoint(userInfoEndpointConfig ->
+                        userInfoEndpointConfig.userService(oauth2GithubService))
+                    .successHandler(oauth2SuccessHandler)
+                    .failureHandler(oauth2FailureHandler);
+            });
+
 
         http
             .exceptionHandling(exception -> exception
